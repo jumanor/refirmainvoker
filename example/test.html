@@ -1,0 +1,86 @@
+<html>
+<head>
+
+    <script defer type="text/javascript" src="addComponent.js"></script>
+    <script defer type="text/javascript" src="https://dsp.reniec.gob.pe/refirma_invoker/resources/js/clientclickonce.js"></script>
+    <script type="module">
+
+        import {RefirmaInvoker} from './refirmaInvoker.js'
+        
+        window.cargarPrevioPdf=function(){
+
+            document.getElementById("frame1").src=window.location.origin+"/01.pdf"
+            document.getElementById("frame2").src=window.location.origin+"/02.pdf" 
+        }
+        window.cargarArgumento=async function (){
+
+            try{
+                
+                let pdfs=[];
+                //pdfs[0]={url:"http://127.0.0.1:5500/01.pdf",name:"doc1"};
+                //pdfs[1]={url:"http://127.0.0.1:5500/02.pdf",name:"doc2"};
+                pdfs[0]={url:window.location.origin+"/01.pdf",name:"doc1"};
+                pdfs[1]={url:window.location.origin+"/02.pdf",name:"doc2"};
+                
+
+                let firmaParam={};
+                firmaParam.posx=10;
+                firmaParam.posy=12;
+                
+                var url_server= document.getElementById("url_refirma_invoker").value;
+                
+                let firma=new RefirmaInvoker(url_server);//Direccion IP del Servidor Refirma
+                let url_base=await firma.ejecutar(pdfs,firmaParam);
+
+                alert("DOCUMENTOS FIRMADOS SATISFACTORIAMENTE")
+                
+                //Primera Opcion de Captura
+                document.getElementById("frame1").src=url_base+"/"+encodeURI("doc1")//GET (PDF)
+                document.getElementById("frame2").src=url_base+"/"+encodeURI("doc2")//GET (PDF)
+                
+                //Segunda Opcion de Captura
+                /*
+                var url=url_base+"/"+encodeURI("doc2")
+                let response=await fetch(url,{
+                    method:'POST',
+                });
+
+                let result=await response.json();
+                document.getElementById("frame2").src="data:application/pdf;base64,"+result.data;//POST (PDF EN BASE64)
+                */
+
+            }catch(error){
+
+                window.alert(error);
+                console.log(error);
+            }
+
+    }//////////////////////////////////////////////////////////////////////////////////////////////////
+
+    </script>
+
+</head>
+<body onload="cargarPrevioPdf()">
+    
+    URL REFIRMA INVOKER
+    <input id="url_refirma_invoker" type="text" value="http://127.0.0.1:9091">
+
+    <button onclick="cargarArgumento()">
+        Test RefirmaPCX
+    </button>
+   
+    <iframe id="frame1" src="" width="100%" height="500px" frameborder="1">
+
+    </iframe>
+
+    <iframe id="frame2" src="" width="100%" height="500px" frameborder="1">
+
+    </iframe>
+
+     <!--
+        addComponet.js agrega este div, esto es necesario para que funcione refirma invoker
+        
+        <div id="addComponent"></div>
+    -->
+</body>
+</html>
