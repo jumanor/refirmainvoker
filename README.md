@@ -36,6 +36,15 @@ Copia la carpeta [example](https://github.com/jumanor/refirmainvoker/tree/master
 A pesar que todos los archivos del ejemplo son **estaticos** es necesario usar un Servidor Web debido a que se esta usando **ES6**.
 
 En caso use **Visual Studio Code** instale el plugin [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) que habilita un Servidor Web.
+
+En el ejemplo se usa **Microsoft Click Once**; por lo tanto, si esta usando navegador **Chome** o **Firefox** instales los siguientes plugins:
+
+- Chrome instale este [plugin](https://chrome.google.com/webstore/detail/clickonce-for-google-chro/kekahkplibinaibelipdcikofmedafmb) 
+
+- Firefox instale este [plugin](https://addons.mozilla.org/es/firefox/addon/meta4clickoncelauncher/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search)
+
+En caso use el navegador **Edge** no es necesario instalar nada adicional.
+
 ``` javascript
 //Listamos los documentos que se desean firmar digitalmente
 let pdfs=[];
