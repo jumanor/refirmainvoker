@@ -12,7 +12,7 @@ Esta implementación usa [7-zip](https://www.7-zip.org/) que normalmente ya vien
     
     C:\Users\Jumanor>7z i
 
-Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [releases](https://github.com/jumanor/refirmainvoker/releases/tag/v1.0.0-alpha), tambien puede descargar los ejecutables [main.exe](https://github.com/jumanor/refirmainvoker/releases/download/v1.0.0-alpha/main.exe) y [main](https://github.com/jumanor/refirmainvoker/releases/download/v1.0.0-alpha/main) siguiendo los enlaces correspondientes.
+Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [releases](https://github.com/jumanor/refirmainvoker/releases/tag/v1.0.1-alpha), tambien puede descargar los ejecutables [main.exe](https://github.com/jumanor/refirmainvoker/releases/download/v1.0.1-alpha/main.exe) y [main](https://github.com/jumanor/refirmainvoker/releases/download/v1.0.1-alpha/main) siguiendo los enlaces correspondientes.
 
 **Windows**
 
