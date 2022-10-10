@@ -9,8 +9,16 @@
         
         window.cargarPrevioPdf=function(){
 
-            document.getElementById("frame1").src=window.location.origin+"/01.pdf"
-            document.getElementById("frame2").src=window.location.origin+"/02.pdf" 
+            document.getElementById("pdf1").value=window.location.origin+"/01.pdf";
+            document.getElementById("pdf2").value=window.location.origin+"/02.pdf";
+           
+        }
+        window.cargarPDFTest=function(){
+
+            document.getElementById("frame1").src= document.getElementById("pdf1").value;
+            document.getElementById("frame2").src= document.getElementById("pdf2").value; 
+
+            document.getElementById("buttonEjecutar").style.display="";
         }
         window.cargarArgumento=async function (){
 
@@ -19,8 +27,8 @@
                 let pdfs=[];
                 //pdfs[0]={url:"http://127.0.0.1:5500/01.pdf",name:"doc1"};
                 //pdfs[1]={url:"http://127.0.0.1:5500/02.pdf",name:"doc2"};
-                pdfs[0]={url:window.location.origin+"/01.pdf",name:"doc1"};
-                pdfs[1]={url:window.location.origin+"/02.pdf",name:"doc2"};
+                pdfs[0]={url:document.getElementById("pdf1").value,name:"doc1"};
+                pdfs[1]={url:document.getElementById("pdf2").value,name:"doc2"};
                 
 
                 let firmaParam={};
@@ -64,8 +72,14 @@
     
     URL REFIRMA INVOKER
     <input id="url_refirma_invoker" type="text" value="http://127.0.0.1:9091">
+    RUTA PDF 1
+    <input id="pdf1" type="text" value="">
+    RUTA PDF 2
+    <input id="pdf2" type="text" value="">
 
-    <button onclick="cargarArgumento()">
+    <button onclick="cargarPDFTest()">Cargar PDF</button>
+    
+    <button id="buttonEjecutar" onclick="cargarArgumento()" style="display: none">
         Test RefirmaPCX
     </button>
    
