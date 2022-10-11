@@ -57,7 +57,7 @@ firmaParam.posx=10;
 firmaParam.posy=12;
 
 //Llamamos a Refirma Invoker con la dirección ip en donde se ejecuta main.exe o main
-let firma=new RefirmaInvoker("192.168.1.10:9091");
+let firma=new RefirmaInvoker("http://192.168.1.10:9091");
 let url_base=await firma.ejecutar(pdfs,firmaParam);
 
 //En este caso obtenemos los documentos firmados digitalmente y los enviamos a un frame
