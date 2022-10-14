@@ -1,6 +1,10 @@
 # Refirma Invoker - Reniec
 Implementación del Motor de Firma Digital - Refirma Invoker - del [RENIEC](https://dsp.reniec.gob.pe/refirma_suite/main/web/main.jsf)
 
+La versión [v1.0.1-alpha](https://github.com/jumanor/refirmainvoker/tree/v1.0.1-alpha) es el último lanzamiento
+
+Para mayor información puede ver una presentación en youtube [aqui](https://www.youtube.com/watch?v=aOto5CStZNA)
+
 ***Importante***: Este software esta aún en desarrollo, no use en entornos de produción
 
 # Instalación
