@@ -12,6 +12,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strconv"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -56,6 +57,82 @@ func paramWeb(documentName string, fileDownloadUrl string, fileDownloadLogoUrl s
 	return respuesta
 }
 
+type ResultCanalDescarga struct {
+	Message string
+	Error   error
+}
+
+// Descargamos y creamos el documento PDF en el HD mediante una gorutina
+func downloadPdfAndPersist(rutaMain string, pdf struct {
+	URL  string "json:\"url\""
+	Name string "json:\"name\""
+}, ch chan ResultCanalDescarga) {
+
+	fmt.Println(pdf)
+
+	out, err := os.Create(filepath.Join(rutaMain, pdf.Name+".pdf"))
+	if err != nil {
+		fmt.Println(err)
+		ch <- ResultCanalDescarga{Message: "", Error: errors.New("No se pudo crear archivo: " + pdf.Name)}
+		return
+	}
+
+	client := http.Client{
+		Timeout: 60 * time.Second, //timeout 60 segundos
+	}
+	resp, err := client.Get(pdf.URL)
+	if err != nil {
+		fmt.Println(err)
+		ch <- ResultCanalDescarga{Message: "", Error: errors.New("No se pudo descargar: " + pdf.URL)}
+		return
+	}
+	if resp.StatusCode != 200 {
+		fmt.Println("Error : " + resp.Status + "  " + pdf.URL)
+		ch <- ResultCanalDescarga{Message: "", Error: errors.New("No se pudo descargar: " + pdf.URL)}
+		return
+
+	}
+
+	_, err = io.Copy(out, resp.Body)
+	if err != nil {
+		fmt.Println(err)
+		ch <- ResultCanalDescarga{Message: "", Error: errors.New("No se pudo copiar a disco: " + pdf.URL)}
+		return
+	}
+
+	out.Close()
+	resp.Body.Close()
+
+	ch <- ResultCanalDescarga{Message: "OK " + pdf.Name, Error: nil}
+}
+
+// Descargamos todos los documentos PDF concurrentemente.
+// Todos los documentos deben ser persistidos caso contrario se lanza en error
+func downloadAllPdfAndPersistConcurrency(rutaMain string, urls Pdf) error {
+
+	ch := make(chan ResultCanalDescarga)
+
+	for _, pdf := range urls {
+		go downloadPdfAndPersist(rutaMain, pdf, ch) //usamos go rutinas
+	}
+
+	for range urls {
+
+		result := <-ch //bloqueamos a la espera de la respuesta
+
+		if result.Error != nil {
+			fmt.Println(result.Error)
+
+			return result.Error
+		}
+
+		//fmt.Println(result.Message)
+
+	}
+
+	return nil
+}
+
 // Creamos un archivo 7z con los PDFs descargados
 func createFile7z(urls Pdf) (string, error) {
 
@@ -63,29 +140,14 @@ func createFile7z(urls Pdf) (string, error) {
 
 	rutaMain := filepath.Join(os.TempDir(), "upload", nameUUID)
 	fmt.Println(rutaMain)
-	os.MkdirAll(rutaMain, os.ModePerm)
+	if err := os.MkdirAll(rutaMain, os.ModePerm); err != nil {
+		fmt.Println(err)
+		return "", errors.New("No se puede crear el directorio " + rutaMain)
+	}
 
-	for _, v := range urls { //descargar los PDFs
-
-		fmt.Println(v)
-
-		out, err := os.Create(filepath.Join(rutaMain, v.Name+".pdf"))
-		if err != nil {
-			fmt.Println(err)
-			return "", errors.New("No se pudo crear archivo: " + v.Name)
-		}
-
-		resp, err := http.Get(v.URL)
-		if err != nil {
-			fmt.Println(err)
-			return "", errors.New("No se pudo descargar: " + v.URL)
-		}
-
-		io.Copy(out, resp.Body)
-
-		out.Close()
-		resp.Body.Close()
-
+	if err := downloadAllPdfAndPersistConcurrency(rutaMain, urls); err != nil {
+		fmt.Println(err)
+		return "", err
 	}
 
 	file7z := filepath.Join(rutaMain, "..", nameUUID+".7z")
