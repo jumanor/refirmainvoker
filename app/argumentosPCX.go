@@ -22,7 +22,7 @@ var CLIENT_SECRET string = ""
 
 // Cadena de argumentos que se envia a refirma PCX
 func paramWeb(documentName string, fileDownloadUrl string, fileDownloadLogoUrl string, fileDownloadStampUrl string,
-	fileUploadUrl string, posx string, posy string) []byte {
+	fileUploadUrl string, posx string, posy string) ([]byte, error) {
 
 	param := make(map[string]string)
 
@@ -50,11 +50,15 @@ func paramWeb(documentName string, fileDownloadUrl string, fileDownloadLogoUrl s
 	param["outputFile"] = "out-" + documentName
 	param["maxFileSize"] = "5242880"
 
-	respuesta, _ := json.Marshal(param)
+	respuesta, err := json.Marshal(param)
+	if err != nil {
+		fmt.Println(err)
+		return nil, errors.New("No se pudo parsear a json la cadena de argumentos")
+	}
 
 	fmt.Println(string(respuesta))
 
-	return respuesta
+	return respuesta, nil
 }
 
 type ResultCanalDescarga struct {
@@ -176,17 +180,23 @@ type DatoArgumentos struct {
 // URI llamado por el Cliente para contruir Cadena de Argumentos en BASE64
 func ArgumentsServletPCX(w http.ResponseWriter, r *http.Request) {
 
-	var argumentos DatoArgumentos
-	err := json.NewDecoder(r.Body).Decode(&argumentos)
+	var inputParameter DatoArgumentos
+	err := json.NewDecoder(r.Body).Decode(&inputParameter)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		w.WriteHeader(http.StatusNotFound) //codigo http 404
+		w.Write([]byte("No se pudo parsear a json los parametros de entrada"))
+		return
 	}
 
 	serverURL := "http://" + r.Host
 
-	documentNameUUID, err := createFile7z(argumentos.Pdfs)
+	documentNameUUID, err := createFile7z(inputParameter.Pdfs)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		w.WriteHeader(http.StatusNotFound) //codigo http 404
+		w.Write([]byte(err.Error()))
+		return
 	}
 
 	documentName7z := documentNameUUID + ".7z"
@@ -194,11 +204,19 @@ func ArgumentsServletPCX(w http.ResponseWriter, r *http.Request) {
 	fileDownloadLogoUrl := serverURL + "/public/iLogo.png"
 	fileDownloadStampUrl := serverURL + "/public/iFirma.png"
 	fileUploadUrl := serverURL + "/upload7z"
-	posx := strconv.Itoa(argumentos.Firma.Posx)
-	posy := strconv.Itoa(argumentos.Firma.Posy)
+	posx := strconv.Itoa(inputParameter.Firma.Posx)
+	posy := strconv.Itoa(inputParameter.Firma.Posy)
 
-	argumentosEnc := base64.StdEncoding.EncodeToString(paramWeb(documentName7z, fileDownloadUrl, fileDownloadLogoUrl,
-		fileDownloadStampUrl, fileUploadUrl, posx, posy))
+	param, err := paramWeb(documentName7z, fileDownloadUrl, fileDownloadLogoUrl,
+		fileDownloadStampUrl, fileUploadUrl, posx, posy)
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusNotFound) //codigo http 404
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	argumentosEnc := base64.StdEncoding.EncodeToString(param)
 
 	urlBasePDFDownloadSigned := serverURL + "/downloadPdfSigned/" + url.QueryEscape(documentNameUUID)
 

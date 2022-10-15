@@ -56,8 +56,11 @@ export class RefirmaInvoker{
                             },
                 });
 
-                if(!response.ok)//200-299
-                throw Error(response.statusText);
+                if(!response.ok){//200-299
+                    console.log(response.statusText)
+                    let tt=await response.text()
+                    throw Error(tt);
+                }
                 
                 let result=await response.json();
                 console.log(result);
