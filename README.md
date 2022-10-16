@@ -1,14 +1,16 @@
 # Refirma Invoker - Reniec
 Implementación del Motor de Firma Digital - Refirma Invoker - del [RENIEC](https://dsp.reniec.gob.pe/refirma_suite/main/web/main.jsf)
 
+***Refirma Invoker*** es parte de la ***ReFirma Suite*** y su uso es gratuito para las Entidades Públicas del Perú, su funcionamiento lo puede ver [acá](https://drive.google.com/file/d/1S-FrH2HX6vawsO4oXESUHwDsSQjJOGMj/view?usp=sharing)
+
 La versión [v2.0.0-alpha](https://github.com/jumanor/refirmainvoker/tree/v2.0.0-alpha) es el último lanzamiento
 
-Para mayor información puede ver una presentación en youtube [aqui](https://www.youtube.com/watch?v=aOto5CStZNA)
+Para mayor información de esta implementación la puede ver en el siguiente [video](https://www.youtube.com/watch?v=aOto5CStZNA)
 
 ***Importante***: Este software esta aún en desarrollo, no use en entornos de produción
 
 # Instalación
-Para ejecutar Refirma Invoker es necesario que se contacte con la **RENIEC** para que le brinde los identificadores correspondientes
+Para ejecutar Refirma Invoker es necesario que se contacte con la [RENIEC](https://dsp.reniec.gob.pe/refirma_suite/main/web/main.jsf) para que le brinde los identificadores correspondientes
 
 Esta implementación usa [7-zip](https://www.7-zip.org/) que normalmente ya viene instalada en **LINUX**; sin embargo, en **WINDOWS** tendra que instalar manualmente y verificar que se puede acceder desde el terminal.
 
@@ -60,7 +62,7 @@ let firmaParam={};
 firmaParam.posx=10;
 firmaParam.posy=12;
 firmaParam.reason="Soy el autor del documento pdf";
-firmaParam.StampSigned="http://miservidor.com/estampillafirma.png";//parametro opcional
+firmaParam.stampSigned="http://miservidor.com/estampillafirma.png";//parametro opcional
 
 //Llamamos a Refirma Invoker con la dirección ip en donde se ejecuta main.exe o main
 let firma=new RefirmaInvoker("http://192.168.1.10:9091");
