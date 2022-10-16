@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 )
 
+// Exclusivamente utilizado por ReFirmaPCX para descargar los documentos (sin firmar) que esta comprimidos con 7z
 func Download7z(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Descargando 7z sin firmar...")
 	documentName7z := r.URL.Query().Get("documentName") + ".7z"

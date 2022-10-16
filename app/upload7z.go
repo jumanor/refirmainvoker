@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 )
 
+// Exclusivamente utilizado por ReFirmaPCX para subir los documentos (firmados) que esta comprimidos con 7z
 func Upload7z(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Subiendo 7z firmado...")
 	// 32*2^20 = 33554432
