@@ -22,7 +22,7 @@ var CLIENT_SECRET string = ""
 
 // Cadena de argumentos que se envia a refirma PCX
 func paramWeb(documentName string, fileDownloadUrl string, fileDownloadLogoUrl string, fileDownloadStampUrl string,
-	fileUploadUrl string, posx string, posy string) ([]byte, error) {
+	fileUploadUrl string, posx string, posy string, reason string) ([]byte, error) {
 
 	param := make(map[string]string)
 
@@ -38,7 +38,7 @@ func paramWeb(documentName string, fileDownloadUrl string, fileDownloadLogoUrl s
 	param["fileDownloadStampUrl"] = fileDownloadStampUrl
 	param["fileUploadUrl"] = fileUploadUrl
 	param["contentFile"] = documentName
-	param["reason"] = "soy autor del documento"
+	param["reason"] = reason
 	param["isSignatureVisible"] = "true"
 	param["stampAppearanceId"] = "0"
 	param["pageNumber"] = "0"
@@ -172,8 +172,10 @@ type Pdf []struct {
 type DatoArgumentos struct {
 	Pdfs  Pdf `json:"pdfs"`
 	Firma struct {
-		Posx int `json:"posx"`
-		Posy int `json:"posy"`
+		Posx        int    `json:"posx"`
+		Posy        int    `json:"posy"`
+		Reason      string `json:"reason"`
+		StampSigned string `json:"stampSigned"`
 	} `json:"firma"`
 }
 
@@ -206,9 +208,14 @@ func ArgumentsServletPCX(w http.ResponseWriter, r *http.Request) {
 	fileUploadUrl := serverURL + "/upload7z"
 	posx := strconv.Itoa(inputParameter.Firma.Posx)
 	posy := strconv.Itoa(inputParameter.Firma.Posy)
+	reason := inputParameter.Firma.Reason
+
+	if inputParameter.Firma.StampSigned != "" {
+		fileDownloadStampUrl = inputParameter.Firma.StampSigned
+	}
 
 	param, err := paramWeb(documentName7z, fileDownloadUrl, fileDownloadLogoUrl,
-		fileDownloadStampUrl, fileUploadUrl, posx, posy)
+		fileDownloadStampUrl, fileUploadUrl, posx, posy, reason)
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusNotFound) //codigo http 404

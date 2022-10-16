@@ -1,0 +1,37 @@
+button{
+    height: 30px;
+}
+input {
+    width: 300px;
+    height: 25px;
+}
+label{
+    display: inline-block;
+    width: 145px;
+}
+.item{
+    margin: 10px;
+}
+.radiobutton{
+    display: table-cell;
+    vertical-align: middle;
+    height: 18px;
+} 
+.contenedorPDF{
+    display:flex;
+    flex-direction: row;
+}
+.contenedorPDF > iframe{
+    width: 50%;
+    height: 400px;
+}
+.contenedorPDF  > iframe:nth-of-type(1) {
+    margin-right: 4px;
+}
+.contenedorPDF  > iframe:nth-of-type(2) {
+    margin-left: 4px;
+}
+.contenedor{
+    display:flex;
+    flex-direction: row;
+}

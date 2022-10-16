@@ -1,0 +1,217 @@
+<html>
+<head>
+  
+    <!-- Bootstrap 4 dependency -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+    <!-- JS dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Bootstrap 4 dependency -->
+    <script src="https://unpkg.com/@popperjs/core@2.11.5/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- bootbox code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+    <script src="https://github.com/makeusabrew/bootbox/releases/download/v5.5.2/bootbox.locales.min.js"></script>
+
+
+    <script defer type="text/javascript" src="../lib/addComponent.js"></script>
+    <script defer type="text/javascript" src="https://dsp.reniec.gob.pe/refirma_invoker/resources/js/clientclickonce.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="utils/spinLib.css">
+    <script defer type="text/javascript" src="utils/spinLib.js"></script>
+    <script type="module">
+
+        import {RefirmaInvoker} from './../lib/refirmaInvoker.js'
+        import {Dialog} from './utils/dialog.js'
+        import {Spin} from './utils/spin.js'
+
+        window.RUTA_PARENT=window.location.origin+"/example02"
+        
+        window.cargarPrevioPdf=function(){
+
+            document.getElementById("pdf1").value=window.RUTA_PARENT+"/01.pdf";
+            document.getElementById("pdf2").value=window.RUTA_PARENT+"/02.pdf";
+
+            document.getElementById("stamp").src=window.RUTA_PARENT+"/iFirma2.png";
+
+           
+        }
+        window.cargarPDFTest=function(){
+            
+            document.getElementById("frame1").src= document.getElementById("pdf1").value;
+            document.getElementById("frame2").src= document.getElementById("pdf2").value; 
+
+            document.getElementById("buttonEjecutar").style.display="";
+        }
+        window.cargarArgumento=async function (){
+
+            try{
+               
+                let pdfs=[];
+                //pdfs[0]={url:"http://127.0.0.1:5500/01.pdf",name:"doc1"};
+                //pdfs[1]={url:"http://127.0.0.1:5500/02.pdf",name:"doc2"};
+                pdfs[0]={url:document.getElementById("pdf1").value,name:"doc1"};
+                pdfs[1]={url:document.getElementById("pdf2").value,name:"doc2"};
+                
+
+                let firmaParam={};
+                firmaParam.posx=parseInt(document.getElementById("posx").value);//10;
+                firmaParam.posy=parseInt(document.getElementById("posy").value);//12;
+                firmaParam.reason=document.getElementById("asunto").value;//"soy el autor de este super documento";
+                firmaParam.StampSigned=document.getElementById("stamp").src;//"http://127.0.0.1:5500/iFirma.png"
+                
+                var url_server= document.getElementById("url_refirma_invoker").value;
+                
+                Spin.load();
+                let firma=new RefirmaInvoker(url_server);//Direccion IP del Servidor Refirma
+                let url_base=await firma.ejecutar(pdfs,firmaParam);
+                Spin.unload();
+
+                await Dialog.alert("DOCUMENTOS FIRMADOS SATISFACTORIAMENTE")
+                
+                //Primera Opcion de Captura
+                //document.getElementById("frame1").src=url_base+"/"+encodeURI("doc1")//GET (PDF)
+                //document.getElementById("frame2").src=url_base+"/"+encodeURI("doc2")//GET (PDF)
+                
+                //Segunda Opcion de Captura
+                Spin.load();
+                let url=url_base+"/"+encodeURI("doc1")
+                let response=await fetch(url,{
+                    method:'POST',
+                });
+                if(!response.ok){
+                    console.log(response.statusText)
+                    let tt=await response.text()
+                    throw Error(tt);
+                }
+
+
+                let result=await response.json();
+                document.getElementById("frame1").src=URL.createObjectURL(window.base64ToBlob(result.data,"application/pdf"));//POST (PDF EN BASE64)
+                Spin.unload();
+                
+
+                Spin.load();
+                url=url_base+"/"+encodeURI("doc2")
+                response=await fetch(url,{
+                    method:'POST',
+                });
+                if(!response.ok){
+                    console.log(response.statusText)
+                    let tt=await response.text()
+                    throw Error(tt);
+                }
+
+                result=await response.json();
+                document.getElementById("frame2").src=URL.createObjectURL(window.base64ToBlob(result.data,"application/pdf"));//POST (PDF EN BASE64)
+                Spin.unload();
+
+            }catch(error){
+                Spin.unload();
+                Dialog.alert(error);
+                console.log(error);
+            }
+
+    }//////////////////////////////////////////////////////////////////////////////////////////////////
+    window.changeimage=function(radio){
+       // let valor=document.querySelector('input[name="imagen"]:checked').value;
+        let valor=radio.value
+        if(valor==1){
+            document.getElementById("stamp").src=window.RUTA_PARENT+"/iFirma.png";//"http://127.0.0.1:5500/iFirma.png";
+        }
+        if(valor==2){
+            document.getElementById("stamp").src=window.RUTA_PARENT+"/iFirma2.png";//"http://127.0.0.1:5500/iFirma2.png";
+        }
+
+    }//////////////////////////////////////////////////////////////////////////////////////////////////
+    window.base64ToBlob=function (base64, type = "application/octet-stream" ) {
+        const binStr = atob( base64 );
+        const len = binStr.length;
+        const arr = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+          arr[ i ] = binStr.charCodeAt( i );
+        }
+        return new Blob( [ arr ], { type: type } );
+    }
+
+    </script>
+
+</head>
+<body onload="cargarPrevioPdf()">
+    
+    <div class="contenedor">
+        <div>
+            <div class="item">
+                <label>REFIRMA INVOKER</label>
+                <input id="url_refirma_invoker" type="text" value="http://127.0.0.1:9091">
+            </div>
+            <div class="item">
+                <label> DOCUMENTO 01</label>
+                <input id="pdf1" type="text" value="">
+            </div>
+            <div class="item">
+                <label> DOCUMENTO 02</label>
+                <input id="pdf2" type="text" value="">
+            </div>
+        </div>
+        <div>
+            <div class="item">
+                <label>ASUNTO</label>
+                <input id="asunto" type="text" value="Soy el autor del Pdf">
+            </div>
+            <div class="item">
+                <label>ESTAMPILLA 01</label>
+                <input type="radio" name="imagen" class="radiobutton" value="1"  onclick="changeimage(this);">
+            </div>
+            <div class="item">
+                <label>ESTAMPILLA 02</label>
+                <input type="radio" name="imagen" class="radiobutton" value="2" checked onclick="changeimage(this);">
+            </div>
+            
+        </div> 
+       
+        <div class="item" style="display: flex; align-items:center">
+            <img id="stamp" src="" alt="" style="width: 90px;height:90px;border:0px solid black">
+        </div> 
+        
+        <div>
+            <div class="item">
+                <label>POS X</label>
+                <input id="posx" type="text" value="10">
+            </div>
+            <div class="item">
+                <label>POS Y</label>
+                <input id="posy" type="text" value="12">
+            </div>
+        </div> 
+
+    </div>
+    
+    <div class="item">
+        <button onclick="cargarPDFTest()">Cargar Documentos</button>
+        <button id="buttonEjecutar" onclick="cargarArgumento()" style="display: none">Firmar Documentos</button>
+    </div>
+        
+    
+    <div class="contenedorPDF item">
+        <iframe id="frame1" src=""  frameborder="1">
+        </iframe>
+
+        <iframe id="frame2" src=""  frameborder="1">    
+        </iframe>
+    </div>
+    
+    <div class="item">
+        <b>Nota 1:</b> En caso ReFirma Invoker se ejecute  en un pc externa (diferente a 127.0.0.1),  verificar que los documentos a firmar son accesibles desde la pc externa.
+    </div>
+    <div class="item">
+        <b>Nota 2:</b> En este ejemplo, ReFirma Invoker esta invocando a ReFirma PCX el cual permite firmar multiples documentos.
+    </div>
+    <!--
+        addComponet.js agrega este div, esto es necesario para que funcione refirma invoker
+        
+        <div id="addComponent"></div>
+    -->
+</body>
+</html>

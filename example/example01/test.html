@@ -1,17 +1,19 @@
 <html>
 <head>
 
-    <script defer type="text/javascript" src="addComponent.js"></script>
+    <script defer type="text/javascript" src="../lib/addComponent.js"></script>
     <script defer type="text/javascript" src="https://dsp.reniec.gob.pe/refirma_invoker/resources/js/clientclickonce.js"></script>
     <link rel="stylesheet" href="style.css">
     <script type="module">
 
-        import {RefirmaInvoker} from './refirmaInvoker.js'
+        import {RefirmaInvoker} from './../lib/refirmaInvoker.js'
         
+        window.RUTA_PARENT=window.location.origin+"/example01"
+
         window.cargarPrevioPdf=function(){
 
-            document.getElementById("pdf1").value=window.location.origin+"/01.pdf";
-            document.getElementById("pdf2").value=window.location.origin+"/02.pdf";
+            document.getElementById("pdf1").value=window.RUTA_PARENT+"/01.pdf";
+            document.getElementById("pdf2").value=window.RUTA_PARENT+"/02.pdf";
            
         }
         window.cargarPDFTest=function(){
@@ -35,6 +37,7 @@
                 let firmaParam={};
                 firmaParam.posx=10;
                 firmaParam.posy=12;
+                firmaParam.reason="soy el autor de este super documento";
                 
                 var url_server= document.getElementById("url_refirma_invoker").value;
                 
