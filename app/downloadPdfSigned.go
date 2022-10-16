@@ -18,8 +18,20 @@ func DownloadPdfSigned(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 
-	namePdf, _ := url.QueryUnescape(vars["file"])
-	dirPdf, _ := url.QueryUnescape(vars["dir"])
+	namePdf, err := url.QueryUnescape(vars["file"])
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("No se pudo realizar decode de " + vars["file"]))
+		return
+	}
+	dirPdf, err := url.QueryUnescape(vars["dir"])
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("No se pudo realizar decode de  " + vars["dir"]))
+		return
+	}
 	filePdfSigned := filepath.Join(os.TempDir(), "upload", "signed", dirPdf+"[R]", namePdf+"[R].pdf")
 
 	fmt.Println(filePdfSigned)
@@ -28,7 +40,8 @@ func DownloadPdfSigned(w http.ResponseWriter, r *http.Request) {
 	f, err := os.Open(filePdfSigned)
 	if err != nil {
 		fmt.Println(err)
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("No se pudo abrir el archivo" + namePdf))
 		return
 	}
 	defer f.Close()
@@ -40,7 +53,8 @@ func DownloadPdfSigned(w http.ResponseWriter, r *http.Request) {
 	//Stream to response
 	if _, err := io.Copy(w, f); err != nil {
 		fmt.Println(err)
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("No se pudo copiar el archivo " + namePdf + " en flujo de envio "))
 	}
 
 }
@@ -50,16 +64,29 @@ func DownloadPdfSignedBase64(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 
-	namePdf, _ := url.QueryUnescape(vars["file"])
+	namePdf, err := url.QueryUnescape(vars["file"])
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("No se pudo realizar decode de " + vars["file"]))
+		return
+	}
 	dirPdf, _ := url.QueryUnescape(vars["dir"])
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("No se pudo realizar decode de  " + vars["dir"]))
+		return
+	}
 	filePdfSigned := filepath.Join(os.TempDir(), "upload", "signed", dirPdf+"[R]", namePdf+"[R].pdf")
 
 	fmt.Println(filePdfSigned)
 
 	data, err := os.ReadFile(filePdfSigned)
 	if err != nil {
-		fmt.Print(err)
-		w.WriteHeader(500)
+		fmt.Println(err)
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("No se pudo leer el archivo" + namePdf))
 		return
 	}
 

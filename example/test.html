@@ -53,6 +53,11 @@
                 let response=await fetch(url,{
                     method:'POST',
                 });
+                if(!response.ok){
+                    console.log(response.statusText)
+                    let tt=await response.text()
+                    throw Error(tt);
+                }
 
                 let result=await response.json();
                 document.getElementById("frame2").src="data:application/pdf;base64,"+result.data;//POST (PDF EN BASE64)
