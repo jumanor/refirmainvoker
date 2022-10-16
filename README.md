@@ -1,7 +1,7 @@
 # Refirma Invoker - Reniec
 Implementación del Motor de Firma Digital - Refirma Invoker - del [RENIEC](https://dsp.reniec.gob.pe/refirma_suite/main/web/main.jsf)
 
-La versión [v1.0.2-alpha](https://github.com/jumanor/refirmainvoker/tree/v1.0.2-alpha) es el último lanzamiento
+La versión [v2.0.0-alpha](https://github.com/jumanor/refirmainvoker/tree/v2.0.0-alpha) es el último lanzamiento
 
 Para mayor información puede ver una presentación en youtube [aqui](https://www.youtube.com/watch?v=aOto5CStZNA)
 
@@ -16,7 +16,7 @@ Esta implementación usa [7-zip](https://www.7-zip.org/) que normalmente ya vien
     
     C:\Users\Jumanor>7z i
 
-Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [releases](https://github.com/jumanor/refirmainvoker/releases/tag/v1.0.2-alpha), tambien puede descargar los ejecutables [main.exe](https://github.com/jumanor/refirmainvoker/releases/download/v1.0.2-alpha/main.exe) y [main](https://github.com/jumanor/refirmainvoker/releases/download/v1.0.2-alpha/main) siguiendo los enlaces correspondientes.
+Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [releases](https://github.com/jumanor/refirmainvoker/releases/tag/v2.0.0-alpha), tambien puede descargar los ejecutables [main.exe](https://github.com/jumanor/refirmainvoker/releases/download/v2.0.0-alpha/main.exe) y [main](https://github.com/jumanor/refirmainvoker/releases/download/v2.0.0-alpha/main) siguiendo los enlaces correspondientes.
 
 **Windows**
 
@@ -59,6 +59,8 @@ pdfs[1]={url:"http://miservidor.com/docs2.pdf",name:"doc2"};
 let firmaParam={};
 firmaParam.posx=10;
 firmaParam.posy=12;
+firmaParam.reason="Soy el autor del documento pdf";
+firmaParam.StampSigned="http://miservidor.com/estampillafirma.png";//parametro opcional
 
 //Llamamos a Refirma Invoker con la dirección ip en donde se ejecuta main.exe o main
 let firma=new RefirmaInvoker("http://192.168.1.10:9091");
