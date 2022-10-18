@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/jumanor/refirmainvoker/logging"
 )
 
 var CLIENT_ID string = ""
@@ -56,7 +57,7 @@ func paramWeb(documentName string, fileDownloadUrl string, fileDownloadLogoUrl s
 		return nil, errors.New("No se pudo parsear a json la cadena de argumentos")
 	}
 
-	fmt.Println(string(respuesta))
+	logging.Log().Debug().Msg(string(respuesta))
 
 	return respuesta, nil
 }
@@ -143,14 +144,14 @@ func createFile7z(urls Pdf) (string, error) {
 	nameUUID := uuid.New().String()
 
 	rutaMain := filepath.Join(os.TempDir(), "upload", nameUUID)
-	fmt.Println(rutaMain)
+
 	if err := os.MkdirAll(rutaMain, os.ModePerm); err != nil {
-		fmt.Println(err)
+		logging.Log().Error().Err(err).Send()
 		return "", errors.New("No se puede crear el directorio " + rutaMain)
 	}
 
 	if err := downloadAllPdfAndPersistConcurrency(rutaMain, urls); err != nil {
-		fmt.Println(err)
+		logging.Log().Error().Err(err).Send()
 		return "", err
 	}
 
@@ -158,10 +159,11 @@ func createFile7z(urls Pdf) (string, error) {
 	c := exec.Command("7z", "a", file7z, rutaMain+string(filepath.Separator)+".")
 
 	if err := c.Run(); err != nil {
-		fmt.Println(err)
+		logging.Log().Error().Err(err).Send()
 		return "", errors.New("No se pudo comprimir a 7z")
 	}
 
+	logging.Log().Debug().Str("7z", file7z).Msg("Archivo 7z creado satisfactoriamente")
 	return nameUUID, nil
 }
 
@@ -185,7 +187,7 @@ func ArgumentsServletPCX(w http.ResponseWriter, r *http.Request) {
 	var inputParameter DatoArgumentos
 	err := json.NewDecoder(r.Body).Decode(&inputParameter)
 	if err != nil {
-		fmt.Println(err)
+		logging.Log().Error().Err(err).Send()
 		w.WriteHeader(http.StatusNotFound) //codigo http 404
 		w.Write([]byte("No se pudo parsear a json los parametros de entrada"))
 		return
@@ -195,7 +197,7 @@ func ArgumentsServletPCX(w http.ResponseWriter, r *http.Request) {
 
 	documentNameUUID, err := createFile7z(inputParameter.Pdfs)
 	if err != nil {
-		fmt.Println(err)
+		logging.Log().Error().Err(err).Send()
 		w.WriteHeader(http.StatusNotFound) //codigo http 404
 		w.Write([]byte(err.Error()))
 		return
@@ -217,7 +219,7 @@ func ArgumentsServletPCX(w http.ResponseWriter, r *http.Request) {
 	param, err := paramWeb(documentName7z, fileDownloadUrl, fileDownloadLogoUrl,
 		fileDownloadStampUrl, fileUploadUrl, posx, posy, reason)
 	if err != nil {
-		fmt.Println(err)
+		logging.Log().Error().Err(err).Send()
 		w.WriteHeader(http.StatusNotFound) //codigo http 404
 		w.Write([]byte(err.Error()))
 		return

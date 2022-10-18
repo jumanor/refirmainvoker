@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -10,12 +8,13 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jumanor/refirmainvoker/app"
+	"github.com/jumanor/refirmainvoker/logging"
 	"github.com/jumanor/refirmainvoker/util"
 )
 
 var SERVER_ADDRESS string = "0.0.0.0:9091"
 
-func identificadores() {
+func init() {
 
 	if len(os.Args) > 1 { //Leemos de argumentos
 		app.CLIENT_ID = os.Args[1]
@@ -29,7 +28,7 @@ func identificadores() {
 
 		properties, err := util.ReadPropertiesFile(ruta)
 		if err != nil {
-			log.Fatal(err)
+			panic(err)
 		}
 		app.CLIENT_ID, _ = properties["clientId"]
 		app.CLIENT_SECRET, _ = properties["clientSecret"]
@@ -39,7 +38,6 @@ func identificadores() {
 }
 
 func main() {
-	identificadores()
 
 	enrutador := mux.NewRouter()
 
@@ -65,8 +63,9 @@ func main() {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-	fmt.Printf("Escuchando en %s. Presiona CTRL + C para salir", SERVER_ADDRESS)
+	logging.Log().Info().Msgf("Escuchando en %s. Presiona CTRL + C para salir", SERVER_ADDRESS)
 
-	log.Fatal(servidor.ListenAndServe())
+	err := servidor.ListenAndServe()
+	logging.Log().Fatal().Err(err).Send()
 
 } //////////////////////////////////////////////////////////////////////////////////////

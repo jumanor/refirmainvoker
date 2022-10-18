@@ -8,16 +8,18 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+
+	"github.com/jumanor/refirmainvoker/logging"
 )
 
 // Exclusivamente utilizado por ReFirmaPCX para subir los documentos (firmados) que esta comprimidos con 7z
 func Upload7z(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Subiendo 7z firmado...")
+	logging.Log().Trace().Msg("Inicio Subiendo 7z firmado...")
 	// 32*2^20 = 33554432
 	// x << y, results in x*2^y
 	err := r.ParseMultipartForm(32 << 20)
 	if err != nil {
-		fmt.Println(err)
+		logging.Log().Error().Err(err).Send()
 		w.WriteHeader(500)
 		return
 	}
@@ -31,7 +33,7 @@ func Upload7z(w http.ResponseWriter, r *http.Request) {
 	// Recuperamos el archivo 7z
 	f, h, err := r.FormFile(clave)
 	if err != nil {
-		fmt.Println(err)
+		logging.Log().Error().Err(err).Send()
 		w.WriteHeader(500)
 		return
 	}
@@ -44,7 +46,7 @@ func Upload7z(w http.ResponseWriter, r *http.Request) {
 
 	file, err := os.OpenFile(filePathSigned, os.O_WRONLY|os.O_CREATE, os.ModePerm)
 	if err != nil {
-		fmt.Println(err)
+		logging.Log().Error().Err(err).Send()
 		w.WriteHeader(500)
 		return
 	}
@@ -52,7 +54,7 @@ func Upload7z(w http.ResponseWriter, r *http.Request) {
 	// Persistimos al disco duro
 	bytes, err := io.Copy(file, f)
 	if err != nil {
-		fmt.Println(err)
+		logging.Log().Error().Err(err).Send()
 		w.WriteHeader(500)
 		return
 	}
@@ -63,13 +65,13 @@ func Upload7z(w http.ResponseWriter, r *http.Request) {
 	c := exec.Command("7z", "x", filePathSigned, "-o"+filepath.Join(signedPath, fileNameWithOutExtension))
 
 	if err := c.Run(); err != nil {
-		fmt.Println(err)
+		logging.Log().Error().Err(err).Send()
 		w.WriteHeader(500)
 		return
 	}
 
 	fmt.Printf("The number of bytes are: %d\n", bytes)
-	fmt.Println("Guardado 7z firmado en: " + filePathSigned)
+	logging.Log().Debug().Str("7z", filePathSigned).Msg("Archivo [R]7z signed descomprimido satisfactoriamente")
 
 	w.WriteHeader(200) //SUCCESS
 	w.Write([]byte(""))
