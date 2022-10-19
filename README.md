@@ -22,7 +22,7 @@ Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [rel
 
 **Windows**
 
-    main.exe [clientId] [clientSecret] [ip]
+    main.exe [clientId] [clientSecret] [serverAddress]
 
 *ejemplo:*
 
@@ -30,11 +30,17 @@ Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [rel
 
 **Linux**
 
-    ./main [clientId] [clientSecret] [ip]
+    ./main [clientId] [clientSecret] [serverAddress]
 
 *ejemplo:*
 
     ./main K57845459hkj TYUOPDLDFDG 192.168.1.10:9091
+
+Tambien puede crear el archivo **config.properties** en la misma ubicación donde se encuentra el ejecutable y ejecutar directamente sin parametros.
+
+    clientId=K57845459hkj
+    clientSecret=TYUOPDLDFDG
+    serverAddress=192.168.1.10:9091
 
 # Funcionamiento
 Copia la carpeta [example](https://github.com/jumanor/refirmainvoker/tree/master/example) de este repositorio en un Servidor Web y ejecuta **test.html**.
