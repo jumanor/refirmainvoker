@@ -16,6 +16,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jumanor/refirmainvoker/logging"
+	"github.com/jumanor/refirmainvoker/util"
 )
 
 var CLIENT_ID string = ""
@@ -23,7 +24,7 @@ var CLIENT_SECRET string = ""
 
 // Cadena de argumentos que se envia a refirma PCX
 func paramWeb(documentName string, fileDownloadUrl string, fileDownloadLogoUrl string, fileDownloadStampUrl string,
-	fileUploadUrl string, posx string, posy string, reason string) ([]byte, error) {
+	fileUploadUrl string, posx string, posy string, reason string, token string) ([]byte, error) {
 
 	param := make(map[string]string)
 
@@ -31,7 +32,7 @@ func paramWeb(documentName string, fileDownloadUrl string, fileDownloadLogoUrl s
 	param["mode"] = "lot-p"
 	param["clientId"] = CLIENT_ID
 	param["clientSecret"] = CLIENT_SECRET
-	param["idFile"] = "001"
+	param["idFile"] = token
 	param["type"] = "W"
 	param["protocol"] = "T"
 	param["fileDownloadUrl"] = fileDownloadUrl
@@ -184,6 +185,14 @@ type DatoArgumentos struct {
 // URI llamado por el Cliente para contruir Cadena de Argumentos en BASE64
 func ArgumentsServletPCX(w http.ResponseWriter, r *http.Request) {
 
+	token := r.Header.Get("x-access-token")
+	if err := util.VerificarJWT(token); err != nil {
+		logging.Log().Error().Err(err).Send()
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte("Acceso no autorizado"))
+		return
+	}
+
 	var inputParameter DatoArgumentos
 	err := json.NewDecoder(r.Body).Decode(&inputParameter)
 	if err != nil {
@@ -204,7 +213,7 @@ func ArgumentsServletPCX(w http.ResponseWriter, r *http.Request) {
 	}
 
 	documentName7z := documentNameUUID + ".7z"
-	fileDownloadUrl := serverURL + "/download7z?documentName=" + url.QueryEscape(documentNameUUID)
+	fileDownloadUrl := serverURL + "/download7z?documentName=" + url.QueryEscape(documentNameUUID) + "&token=" + url.QueryEscape(token)
 	fileDownloadLogoUrl := serverURL + "/public/iLogo.png"
 	fileDownloadStampUrl := serverURL + "/public/iFirma.png"
 	fileUploadUrl := serverURL + "/upload7z"
@@ -217,7 +226,7 @@ func ArgumentsServletPCX(w http.ResponseWriter, r *http.Request) {
 	}
 
 	param, err := paramWeb(documentName7z, fileDownloadUrl, fileDownloadLogoUrl,
-		fileDownloadStampUrl, fileUploadUrl, posx, posy, reason)
+		fileDownloadStampUrl, fileUploadUrl, posx, posy, reason, token)
 	if err != nil {
 		logging.Log().Error().Err(err).Send()
 		w.WriteHeader(http.StatusNotFound) //codigo http 404

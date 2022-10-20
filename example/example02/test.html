@@ -65,7 +65,8 @@
                 
                 Spin.load();
                 let firma=new RefirmaInvoker(url_server);//Direccion IP del Servidor Refirma
-                let url_base=await firma.ejecutar(pdfs,firmaParam);
+                let token=await firma.autenticacion("usuarioAccesoApi");
+                let url_base=await firma.ejecutar(pdfs,firmaParam,token);
                 Spin.unload();
 
                 await Dialog.alert("DOCUMENTOS FIRMADOS SATISFACTORIAMENTE")
@@ -76,9 +77,12 @@
                 
                 //Segunda Opcion de Captura
                 Spin.load();
-                let url=url_base+"/"+encodeURI("doc1")
+                let url=url_base+"/"+encodeURI("doc1");
                 let response=await fetch(url,{
                     method:'POST',
+                    headers: {
+                                'x-access-token' : token    
+                            },
                 });
                 if(!response.ok){
                     console.log(response.statusText)
@@ -93,9 +97,12 @@
                 
 
                 Spin.load();
-                url=url_base+"/"+encodeURI("doc2")
+                url=url_base+"/"+encodeURI("doc2");
                 response=await fetch(url,{
                     method:'POST',
+                    headers: {
+                                'x-access-token' : token    
+                            },
                 });
                 if(!response.ok){
                     console.log(response.statusText)

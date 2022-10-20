@@ -35,7 +35,24 @@ export class RefirmaInvoker{
         window.addEventListener('invokerOk', this.event_invokerOk);
         window.addEventListener('invokerCancel',this.event_invokerCancel);
     }////////////////////////////////////////////////////////////////////////////////////
-    async ejecutar(urlPdfs,parametros){
+    async autenticacion(usuarioAccesoApi){
+        let response=await fetch(this.URL_SERVER_REFIRMA_INVOKER+"/autenticacion",{
+            method:'POST',
+            body:JSON.stringify({usuarioAccesoApi:usuarioAccesoApi}),
+            headers: {
+                        'Content-Type': 'application/json; charset=UTF-8',      
+                    },
+        });
+        if(!response.ok){//200-299
+            console.log(response.statusText)
+            let tt=await response.text()
+            throw Error(tt);
+        }
+        
+        let result=await response.json();
+        return result.data
+    }////////////////////////////////////////////////////////////////////////////////////
+    async ejecutar(urlPdfs,parametros,token){
             this.precarga();
         
             let params={};
@@ -52,7 +69,8 @@ export class RefirmaInvoker{
                     method:'POST',
                     body:JSON.stringify(params),
                     headers: {
-                                'Content-Type': 'application/json; charset=UTF-8',      
+                                'Content-Type': 'application/json; charset=UTF-8', 
+                                'x-access-token' : token    
                             },
                 });
 

@@ -36,7 +36,6 @@ func init() {
 	}
 
 }
-
 func main() {
 
 	enrutador := mux.NewRouter()
@@ -48,7 +47,8 @@ func main() {
 	enrutador.HandleFunc("/download7z", app.Download7z).Methods("GET")
 	enrutador.HandleFunc("/upload7z", app.Upload7z).Methods("POST")
 	enrutador.HandleFunc("/downloadPdfSigned/{dir}/{file}", app.DownloadPdfSignedBase64).Methods("POST")
-	enrutador.HandleFunc("/downloadPdfSigned/{dir}/{file}", app.DownloadPdfSigned).Methods("GET")
+	enrutador.HandleFunc("/downloadPdfSigned/{dir}/{file}/{token}", app.DownloadPdfSigned).Methods("GET")
+	enrutador.HandleFunc("/autenticacion", app.Autenticacion).Methods("POST")
 
 	enrutador.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")

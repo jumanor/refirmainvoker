@@ -42,13 +42,14 @@
                 var url_server= document.getElementById("url_refirma_invoker").value;
                 
                 let firma=new RefirmaInvoker(url_server);//Direccion IP del Servidor Refirma
-                let url_base=await firma.ejecutar(pdfs,firmaParam);
+                let token=await firma.autenticacion("usuarioAccesoApi");
+                let url_base=await firma.ejecutar(pdfs,firmaParam,token);
 
                 alert("DOCUMENTOS FIRMADOS SATISFACTORIAMENTE")
                 
                 //Primera Opcion de Captura
-                document.getElementById("frame1").src=url_base+"/"+encodeURI("doc1")//GET (PDF)
-                document.getElementById("frame2").src=url_base+"/"+encodeURI("doc2")//GET (PDF)
+                document.getElementById("frame1").src=url_base+"/"+encodeURI("doc1")+"/"+encodeURI(token)//GET (PDF)
+                document.getElementById("frame2").src=url_base+"/"+encodeURI("doc2")+"/"+encodeURI(token)//GET (PDF)
                 
                 //Segunda Opcion de Captura
                 /*

@@ -11,6 +11,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jumanor/refirmainvoker/logging"
+	"github.com/jumanor/refirmainvoker/util"
 )
 
 // Descargamos el documento PDF firmado mediante GET
@@ -32,6 +33,21 @@ func DownloadPdfSigned(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("No se pudo realizar decode de  " + vars["dir"]))
 		return
 	}
+
+	token, err := url.QueryUnescape(vars["token"])
+	if err != nil {
+		logging.Log().Error().Err(err).Send()
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("No se pudo realizar decode de  " + vars["token"]))
+		return
+	}
+	if err := util.VerificarJWT(token); err != nil {
+		logging.Log().Error().Err(err).Send()
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte("Acceso no autorizado"))
+		return
+	}
+
 	filePdfSigned := filepath.Join(os.TempDir(), "upload", "signed", dirPdf+"[R]", namePdf+"[R].pdf")
 
 	logging.Log().Trace().Msgf("descargando pdf %s", filePdfSigned)
@@ -78,6 +94,16 @@ func DownloadPdfSignedBase64(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("No se pudo realizar decode de  " + vars["dir"]))
 		return
 	}
+
+	token := r.Header.Get("x-access-token")
+
+	if err := util.VerificarJWT(token); err != nil {
+		logging.Log().Error().Err(err).Send()
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte("Acceso no autorizado"))
+		return
+	}
+
 	filePdfSigned := filepath.Join(os.TempDir(), "upload", "signed", dirPdf+"[R]", namePdf+"[R].pdf")
 
 	logging.Log().Trace().Msgf("descargando pdf b64 %s", filePdfSigned)

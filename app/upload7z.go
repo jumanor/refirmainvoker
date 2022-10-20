@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 
 	"github.com/jumanor/refirmainvoker/logging"
+	"github.com/jumanor/refirmainvoker/util"
 )
 
 // Exclusivamente utilizado por ReFirmaPCX para subir los documentos (firmados) que esta comprimidos con 7z
@@ -28,6 +29,12 @@ func Upload7z(w http.ResponseWriter, r *http.Request) {
 	for key := range r.MultipartForm.File {
 
 		clave = key
+	}
+
+	if err := util.VerificarJWT(clave); err != nil {
+		logging.Log().Error().Err(err).Send()
+		w.WriteHeader(http.StatusUnauthorized)
+		return
 	}
 
 	// Recuperamos el archivo 7z
