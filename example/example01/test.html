@@ -40,8 +40,14 @@
                 firmaParam.reason="soy el autor de este super documento";
                 
                 var url_server= document.getElementById("url_refirma_invoker").value;
-                
-                let firma=new RefirmaInvoker(url_server);//Direccion IP del Servidor Refirma
+                //Direccion IP del Servidor Refirma
+                let firma=new RefirmaInvoker(url_server);
+                //El metodo autenticacion() solo debe ser usado para testeo
+                //nunca debe ser usado en el Cliente. 
+                //
+                //El Sistema de Gestion Documental es el encargado de autenticar a los Usuarios
+                //y es este quien debe llamar al URI /autenticacion que esta implementado en el metodo autenticacion()
+                //El SGD enseguida envia el token al Cliente
                 let token=await firma.autenticacion("usuarioAccesoApi");
                 let url_base=await firma.ejecutar(pdfs,firmaParam,token);
 
@@ -56,6 +62,9 @@
                 var url=url_base+"/"+encodeURI("doc2")
                 let response=await fetch(url,{
                     method:'POST',
+                    headers: {
+                                'x-access-token' : token    
+                            },
                 });
                 if(!response.ok){
                     console.log(response.statusText)

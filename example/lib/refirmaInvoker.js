@@ -35,6 +35,8 @@ export class RefirmaInvoker{
         window.addEventListener('invokerOk', this.event_invokerOk);
         window.addEventListener('invokerCancel',this.event_invokerCancel);
     }////////////////////////////////////////////////////////////////////////////////////
+    // Solamente el SGD debe usar /autenticacion.
+    // No utilize este metodo en producción
     async autenticacion(usuarioAccesoApi){
         let response=await fetch(this.URL_SERVER_REFIRMA_INVOKER+"/autenticacion",{
             method:'POST',
