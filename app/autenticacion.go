@@ -8,6 +8,8 @@ import (
 	"github.com/jumanor/refirmainvoker/util"
 )
 
+var USER_ACCESS_API string
+
 type InputParametrosAutenticacion struct {
 	UsuarioAccesoApi string `json:"usuarioAccesoApi"`
 }
@@ -24,11 +26,13 @@ func Autenticacion(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	/*
-		if inputParameter.UsuarioAccesoApi == "" {
-
-		}
-	*/
+	//Una muy simple forma de validar acceso a las API
+	if inputParameter.UsuarioAccesoApi != USER_ACCESS_API {
+		logging.Log().Info().Msgf("Usuario %s incorrecto", inputParameter.UsuarioAccesoApi)
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("Usuario incorrecto"))
+		return
+	}
 
 	tokenString, err := util.GenerarJWT()
 	if err != nil {

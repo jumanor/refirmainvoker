@@ -20,6 +20,8 @@ func init() {
 		app.CLIENT_ID = os.Args[1]
 		app.CLIENT_SECRET = os.Args[2]
 		SERVER_ADDRESS = os.Args[3]
+		util.SECRET_KEY_JWT = os.Args[4]
+		app.USER_ACCESS_API = os.Args[5]
 
 	} else { //Leemos de archivo properties
 
@@ -33,6 +35,8 @@ func init() {
 		app.CLIENT_ID, _ = properties["clientId"]
 		app.CLIENT_SECRET, _ = properties["clientSecret"]
 		SERVER_ADDRESS, _ = properties["serverAddress"]
+		util.SECRET_KEY_JWT = properties["secretKeyJwt"]
+		app.USER_ACCESS_API = properties["userAccessApi"]
 	}
 
 }

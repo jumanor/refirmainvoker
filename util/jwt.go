@@ -6,7 +6,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-var sampleSecretKey = []byte("SecretYouShouldHide")
+var SECRET_KEY_JWT string
 
 // Creamos Token
 func GenerarJWT() (string, error) {
@@ -19,14 +19,14 @@ func GenerarJWT() (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	return token.SignedString(sampleSecretKey)
+	return token.SignedString([]byte(SECRET_KEY_JWT))
 }
 
 // Verificamos Token
 func VerificarJWT(tokenString string) error {
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		return sampleSecretKey, nil
+		return []byte(SECRET_KEY_JWT), nil
 	})
 
 	if token.Valid {

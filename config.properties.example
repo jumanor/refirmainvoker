@@ -1,3 +1,10 @@
+# Identificador proporcionado por RENIEC
 clientId=miClientId
+# Identificador proporcionado por RENIEC
 clientSecret=miClientesecret
+# Direccion Ip y Puerto de escucha ReFirma Invoker
 serverAddress=0.0.0.0:9091
+# Clave secreta para generar Tokens
+secretKeyJwt=muysecretokenjwt
+# Usuario que accedera a la API
+userAccessApi=usuarioAccesoApi
