@@ -3,7 +3,7 @@ Implementación del Motor de Firma Digital - Refirma Invoker - del [RENIEC](http
 
 ***Refirma Invoker*** es parte de la ***ReFirma Suite*** y su uso es gratuito para las Entidades Públicas del Perú, su funcionamiento lo puede ver [acá](https://drive.google.com/file/d/1S-FrH2HX6vawsO4oXESUHwDsSQjJOGMj/view?usp=sharing)
 
-La versión [v1.0.0-beta](https://github.com/jumanor/refirmainvoker/tree/v1.0.0-beta) es el último lanzamiento
+La versión [v1.0.0](https://github.com/jumanor/refirmainvoker/tree/v1.0.0) es el último lanzamiento
 
 Para mayor información de esta implementación puede ver en el siguiente [video](https://www.youtube.com/watch?v=aOto5CStZNA)
 
@@ -21,7 +21,7 @@ Esta implementación usa [7-zip](https://www.7-zip.org/) que normalmente ya vien
 # Instalación
 
 
-Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [releases](https://github.com/jumanor/refirmainvoker/releases/tag/v1.0.0-beta), tambien puede descargar los ejecutables [main.exe](https://github.com/jumanor/refirmainvoker/releases/download/v1.0.0-beta/main.exe) y [main](https://github.com/jumanor/refirmainvoker/releases/download/v1.0.0-beta/main) siguiendo los enlaces correspondientes.
+Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [releases](https://github.com/jumanor/refirmainvoker/releases/tag/v1.0.0), tambien puede descargar los ejecutables [main.exe](https://github.com/jumanor/refirmainvoker/releases/download/v1.0.0/main.exe) y [main](https://github.com/jumanor/refirmainvoker/releases/download/v1.0.0/main) siguiendo los enlaces correspondientes.
 
 **Windows**
 
@@ -52,6 +52,10 @@ serverAddress=0.0.0.0:9091
 secretKeyJwt=muysecretokenjwt
 # Usuario que accedera a la API
 userAccessApi=usuarioAccesoApi
+# Tiempo de expiración del Token en minutos (Opcional)
+timeExpireToken=5
+# Maximo tamaño de comprension 7z en bytes  (Opcional)
+maxFileSize7z=10485760
 ``` 
 
 # Funcionamiento
