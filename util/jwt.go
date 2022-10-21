@@ -7,13 +7,14 @@ import (
 )
 
 var SECRET_KEY_JWT string
+var TIME_EXPIRE_TOKEN int64
 
 // Creamos Token
 func GenerarJWT() (string, error) {
 
 	// Create the Claims
 	claims := &jwt.RegisteredClaims{
-		ExpiresAt: jwt.NewNumericDate(time.Now().Add(5 * time.Minute)),
+		ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(TIME_EXPIRE_TOKEN) * time.Minute)),
 		Issuer:    "jumanor",
 	}
 

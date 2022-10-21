@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -16,12 +17,26 @@ var SERVER_ADDRESS string = "0.0.0.0:9091"
 
 func init() {
 
+	util.TIME_EXPIRE_TOKEN = 5        //5 Minutos
+	app.MAX_FILE_SIZE_7Z = "10485760" //10 Megas
+
 	if len(os.Args) > 1 { //Leemos de argumentos
 		app.CLIENT_ID = os.Args[1]
 		app.CLIENT_SECRET = os.Args[2]
 		SERVER_ADDRESS = os.Args[3]
 		util.SECRET_KEY_JWT = os.Args[4]
 		app.USER_ACCESS_API = os.Args[5]
+
+		if len(os.Args) >= 7 {
+			if n, err := strconv.ParseInt(os.Args[6], 10, 64); err != nil {
+				panic(err)
+			} else {
+				util.TIME_EXPIRE_TOKEN = n
+			}
+		}
+		if len(os.Args) == 8 {
+			app.MAX_FILE_SIZE_7Z = os.Args[7]
+		}
 
 	} else { //Leemos de archivo properties
 
@@ -32,13 +47,29 @@ func init() {
 		if err != nil {
 			panic(err)
 		}
-		app.CLIENT_ID, _ = properties["clientId"]
-		app.CLIENT_SECRET, _ = properties["clientSecret"]
-		SERVER_ADDRESS, _ = properties["serverAddress"]
+		app.CLIENT_ID = properties["clientId"]
+		app.CLIENT_SECRET = properties["clientSecret"]
+		SERVER_ADDRESS = properties["serverAddress"]
 		util.SECRET_KEY_JWT = properties["secretKeyJwt"]
 		app.USER_ACCESS_API = properties["userAccessApi"]
+
+		if properties["timeExpireToken"] != "" {
+			if exp, err := strconv.ParseInt(properties["timeExpireToken"], 10, 64); err != nil {
+				panic(err)
+			} else {
+				util.TIME_EXPIRE_TOKEN = exp
+			}
+		}
+		if properties["maxFileSize7z"] != "" {
+			app.MAX_FILE_SIZE_7Z = properties["maxFileSize7z"]
+		}
+
 	}
 
+	logging.Log().Trace().Str("CLIENT_ID", app.CLIENT_ID).Str("CLIENT_SECRET", app.CLIENT_SECRET).
+		Str("SERVER_ADDRESS", SERVER_ADDRESS).Str("SECRET_KEY_JWT", util.SECRET_KEY_JWT).
+		Str("USER_ACCESS_API", app.USER_ACCESS_API).Int64("TIME_EXPIRE_TOKEN", util.TIME_EXPIRE_TOKEN).
+		Str("MAX_FILE_SIZE_7Z", app.MAX_FILE_SIZE_7Z).Send()
 }
 func main() {
 

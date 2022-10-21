@@ -21,6 +21,7 @@ import (
 
 var CLIENT_ID string = ""
 var CLIENT_SECRET string = ""
+var MAX_FILE_SIZE_7Z string
 
 // Cadena de argumentos que se envia a refirma PCX
 func paramWeb(documentName string, fileDownloadUrl string, fileDownloadLogoUrl string, fileDownloadStampUrl string,
@@ -50,7 +51,7 @@ func paramWeb(documentName string, fileDownloadUrl string, fileDownloadLogoUrl s
 	param["dcfilter"] = ".*FIR.*|.*FAU.*"
 	param["signatureLevel"] = "0"
 	param["outputFile"] = "out-" + documentName
-	param["maxFileSize"] = "5242880"
+	param["maxFileSize"] = MAX_FILE_SIZE_7Z //Por defecto será 5242880 5MB - Maximo 100MB
 
 	respuesta, err := json.Marshal(param)
 	if err != nil {

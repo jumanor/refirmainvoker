@@ -18,7 +18,7 @@ func Upload7z(w http.ResponseWriter, r *http.Request) {
 	logging.Log().Trace().Msg("Inicio Subiendo 7z firmado...")
 	// 32*2^20 = 33554432
 	// x << y, results in x*2^y
-	err := r.ParseMultipartForm(32 << 20)
+	err := r.ParseMultipartForm(32 << 20) //32 Megas
 	if err != nil {
 		logging.Log().Error().Err(err).Send()
 		w.WriteHeader(500)
