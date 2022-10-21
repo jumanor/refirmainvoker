@@ -3,7 +3,7 @@ Implementación del Motor de Firma Digital - Refirma Invoker - del [RENIEC](http
 
 ***Refirma Invoker*** es parte de la ***ReFirma Suite*** y su uso es gratuito para las Entidades Públicas del Perú, su funcionamiento lo puede ver [acá](https://drive.google.com/file/d/1S-FrH2HX6vawsO4oXESUHwDsSQjJOGMj/view?usp=sharing)
 
-La versión [v1.0.0-beta](https://github.com/jumanor/refirmainvoker/tree/v2.0.0-alpha) es el último lanzamiento
+La versión [v1.0.0-beta](https://github.com/jumanor/refirmainvoker/tree/v1.0.0-beta) es el último lanzamiento
 
 Para mayor información de esta implementación puede ver en el siguiente [video](https://www.youtube.com/watch?v=aOto5CStZNA)
 
