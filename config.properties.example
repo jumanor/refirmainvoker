@@ -8,3 +8,7 @@ serverAddress=0.0.0.0:9091
 secretKeyJwt=muysecretokenjwt
 # Usuario que accedera a la API
 userAccessApi=usuarioAccesoApi
+# Tiempo de expiración del Token en minutos (Opcional)
+timeExpireToken=5
+# Maximo tamaño del archivo 7z en bytes  (Opcional)
+maxFileSize7z=10485760

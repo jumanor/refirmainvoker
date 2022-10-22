@@ -13,50 +13,52 @@ Para ejecutar Refirma Invoker es necesario que se contacte con la [RENIEC](https
 
 Esta implementación usa [7-zip](https://www.7-zip.org/) que normalmente ya viene instalada en **LINUX**; sin embargo, en **WINDOWS** tendra que instalar manualmente y verificar que se puede acceder desde el terminal.
 
-*ejemplo:*
+Windows
     
     C:\Users\Jumanor>7z i
 
+Linux
+
+    jumanor@ubuntu:~$7z i
 
 # Instalación
 
 
-Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [releases](https://github.com/jumanor/refirmainvoker/releases/tag/v1.0.0), tambien puede descargar los ejecutables [main.exe](https://github.com/jumanor/refirmainvoker/releases/download/v1.0.0/main.exe) y [main](https://github.com/jumanor/refirmainvoker/releases/download/v1.0.0/main) siguiendo los enlaces correspondientes.
+Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [releases](https://github.com/jumanor/refirmainvoker/releases/tag/v1.0.0).
 
-**Windows**
+1. Descargue el ejecutable
+   
+   Windows: [main.exe](https://github.com/jumanor/refirmainvoker/releases/download/v1.0.0/main.exe)
+   
+   Linux:   [main](https://github.com/jumanor/refirmainvoker/releases/download/v1.0.0/main)
 
-    main.exe [clientId] [clientSecret] [serverAddress] [secretKeyJwt] [userAccessApi]
+2. Copia la carpeta **public** del repositorio esta contiene 2 imagenes: iFirma.png e iLogo.png
+3. Crea un archivo **config.properties** con los siguientes parametros :
+    ``` bash
+    # Identificador proporcionado por RENIEC
+    clientId=K57845459hkj
+    # Identificador proporcionado por RENIEC
+    clientSecret=TYUOPDLDFDG
+    # Direccion Ip y Puerto de escucha ReFirma Invoker
+    serverAddress=0.0.0.0:9091
+    # Clave secreta para generar Tokens
+    secretKeyJwt=muysecretokenjwt
+    # Usuario que accedera a la API
+    userAccessApi=usuarioAccesoApi
+    # Tiempo de expiración del Token en minutos. Ejemplo 5 minutos (Opcional)
+    timeExpireToken=5
+    # Maximo tamaño del archivo 7z en bytes. Ejemplo 10 megas (Opcional)
+    maxFileSize7z=10485760
+    ``` 
+4. Ejecuta ReFirma Invoker
 
-*ejemplo:*
+    Windows
 
-    main.exe K57845459hkj TYUOPDLDFDG 192.168.1.10:9091 muysecretokenjwt usuarioAccesoApi
+        main.exe
 
-**Linux**
+    Linux
 
-    ./main [clientId] [clientSecret] [serverAddress] [secretKeyJwt] [userAccessApi]
-
-*ejemplo:*
-
-    ./main K57845459hkj TYUOPDLDFDG 192.168.1.10:9091 muysecretokenjwt usuarioAccesoApi
-
-Tambien puede crear un archivo **config.properties** en la misma ubicación donde se encuentra el ejecutable y ejecutar directamente sin parametros.
-
-``` bash
-# Identificador proporcionado por RENIEC
-clientId=K57845459hkj
-# Identificador proporcionado por RENIEC
-clientSecret=TYUOPDLDFDG
-# Direccion Ip y Puerto de escucha ReFirma Invoker
-serverAddress=0.0.0.0:9091
-# Clave secreta para generar Tokens
-secretKeyJwt=muysecretokenjwt
-# Usuario que accedera a la API
-userAccessApi=usuarioAccesoApi
-# Tiempo de expiración del Token en minutos (Opcional)
-timeExpireToken=5
-# Maximo tamaño de comprension 7z en bytes  (Opcional)
-maxFileSize7z=10485760
-``` 
+        ./main
 
 # Funcionamiento
 Copia la carpeta [example](https://github.com/jumanor/refirmainvoker/tree/master/example) de este repositorio en un Servidor Web y ejecuta **test.html**.
