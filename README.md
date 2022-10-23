@@ -23,6 +23,7 @@ Linux
 
 # Instalación
 
+Esta disponible un video de la instalación en el siguiente [enlace](https://www.youtube.com/watch?v=7q4dS8y3Sws)
 
 Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [releases](https://github.com/jumanor/refirmainvoker/releases/tag/v1.0.0).
 
@@ -61,6 +62,9 @@ Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [rel
         ./main
 
 # Funcionamiento
+
+Esta disponible un video del funcionamiento en el siguiente [enlace](https://youtu.be/7q4dS8y3Sws?t=218)
+
 Copia la carpeta [example](https://github.com/jumanor/refirmainvoker/tree/master/example) de este repositorio en un Servidor Web y ejecuta **test.html**.
 
 A pesar que todos los archivos del ejemplo son **estaticos** es necesario usar un Servidor Web debido a que se esta usando **ES6**.
