@@ -12,3 +12,9 @@ userAccessApi=usuarioAccesoApi
 timeExpireToken=5
 # Maximo tamaño del archivo 7z en bytes  (Opcional)
 maxFileSize7z=10485760
+# Certificado TLS (Opcional)
+#certificateFileTls=C:\Users\jumanor\cert.pem
+#certificateFileTls=/home/jumanor/cert.pem
+# Clave Privada TLS  (Opcional)
+#privateKeyFileTls=C:\Users\jumanor\key.pem
+#privateKeyFileTls=/home/jumanor/key.pem

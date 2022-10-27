@@ -24,7 +24,7 @@ var CLIENT_SECRET string = ""
 var MAX_FILE_SIZE_7Z string
 
 // Cadena de argumentos que se envia a refirma PCX
-func paramWeb(documentName string, fileDownloadUrl string, fileDownloadLogoUrl string, fileDownloadStampUrl string,
+func paramWeb(protocol string, documentName string, fileDownloadUrl string, fileDownloadLogoUrl string, fileDownloadStampUrl string,
 	fileUploadUrl string, posx string, posy string, reason string, token string) ([]byte, error) {
 
 	param := make(map[string]string)
@@ -35,7 +35,7 @@ func paramWeb(documentName string, fileDownloadUrl string, fileDownloadLogoUrl s
 	param["clientSecret"] = CLIENT_SECRET
 	param["idFile"] = token
 	param["type"] = "W"
-	param["protocol"] = "T"
+	param["protocol"] = protocol
 	param["fileDownloadUrl"] = fileDownloadUrl
 	param["fileDownloadLogoUrl"] = fileDownloadLogoUrl
 	param["fileDownloadStampUrl"] = fileDownloadStampUrl
@@ -204,6 +204,11 @@ func ArgumentsServletPCX(w http.ResponseWriter, r *http.Request) {
 	}
 
 	serverURL := "http://" + r.Host
+	protocol := "T"
+	if r.TLS != nil {
+		serverURL = "https://" + r.Host
+		protocol = "S"
+	}
 
 	documentNameUUID, err := createFile7z(inputParameter.Pdfs)
 	if err != nil {
@@ -226,7 +231,7 @@ func ArgumentsServletPCX(w http.ResponseWriter, r *http.Request) {
 		fileDownloadStampUrl = inputParameter.Firma.StampSigned
 	}
 
-	param, err := paramWeb(documentName7z, fileDownloadUrl, fileDownloadLogoUrl,
+	param, err := paramWeb(protocol, documentName7z, fileDownloadUrl, fileDownloadLogoUrl,
 		fileDownloadStampUrl, fileUploadUrl, posx, posy, reason, token)
 	if err != nil {
 		logging.Log().Error().Err(err).Send()

@@ -13,7 +13,9 @@ import (
 	"github.com/jumanor/refirmainvoker/util"
 )
 
-var SERVER_ADDRESS string = "0.0.0.0:9091"
+var SERVER_ADDRESS string
+var CERTIFICATE_FILE_TLS string
+var PRIVATE_KEY_FILE_TLS string
 
 func init() {
 
@@ -63,6 +65,12 @@ func init() {
 		if properties["maxFileSize7z"] != "" {
 			app.MAX_FILE_SIZE_7Z = properties["maxFileSize7z"]
 		}
+		if properties["certificateFileTls"] != "" {
+			CERTIFICATE_FILE_TLS = properties["certificateFileTls"]
+		}
+		if properties["privateKeyFileTls"] != "" {
+			PRIVATE_KEY_FILE_TLS = properties["privateKeyFileTls"]
+		}
 
 	}
 
@@ -98,9 +106,18 @@ func main() {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-	logging.Log().Info().Msgf("Escuchando en %s. Presiona CTRL + C para salir", SERVER_ADDRESS)
 
-	err := servidor.ListenAndServe()
-	logging.Log().Fatal().Err(err).Send()
+	if CERTIFICATE_FILE_TLS != "" && PRIVATE_KEY_FILE_TLS != "" {
+
+		logging.Log().Info().Str("Scheme", "https").Msgf("Escuchando en %s. Presiona CTRL + C para salir", SERVER_ADDRESS)
+		err := servidor.ListenAndServeTLS(CERTIFICATE_FILE_TLS, PRIVATE_KEY_FILE_TLS)
+		logging.Log().Fatal().Err(err).Send()
+
+	} else {
+
+		logging.Log().Info().Str("Scheme", "http").Msgf("Escuchando en %s. Presiona CTRL + C para salir", SERVER_ADDRESS)
+		err := servidor.ListenAndServe()
+		logging.Log().Fatal().Err(err).Send()
+	}
 
 } //////////////////////////////////////////////////////////////////////////////////////
