@@ -4,7 +4,7 @@ Implementación del Motor de Firma Digital - Refirma Invoker - del [RENIEC](http
 
 ***Refirma Invoker*** es parte de la ***ReFirma Suite*** y su uso es gratuito para las Entidades Públicas del Perú, su funcionamiento lo puede ver [acá](https://drive.google.com/file/d/1S-FrH2HX6vawsO4oXESUHwDsSQjJOGMj/view?usp=sharing)
 
-La versión [v1.1.0](https://github.com/jumanor/refirmainvoker/tree/v1.0.0) es el último lanzamiento
+La versión [v1.1.0](https://github.com/jumanor/refirmainvoker/tree/v1.1.0) es el último lanzamiento
 
 Para mayor información de esta implementación puede ver en el siguiente [video](https://www.youtube.com/watch?v=aOto5CStZNA)
 
@@ -51,14 +51,21 @@ Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [rel
     timeExpireToken=5
     # Maximo tamaño del archivo 7z en bytes. Ejemplo 10 megas (Opcional)
     maxFileSize7z=10485760
-    # Certificado TLS (Opcional)
+    # Certificado SSL/TLS (Opcional)
     #certificateFileTls=C:\Users\jumanor\cert.pem
     #certificateFileTls=/home/jumanor/cert.pem
-    # Clave Privada TLS  (Opcional)
+    # Clave Privada SSL/TLS  (Opcional)
     #privateKeyFileTls=C:\Users\jumanor\key.pem
     #privateKeyFileTls=/home/jumanor/key.pem
     ``` 
-4. Ejecuta ReFirma Invoker
+4. En caso desee habilitar protocolo **https** es necesario que ingrese los siguientes parametros :
+    ``` bash
+    # Certificado SSL/TLS (Opcional)
+    certificateFileTls=/home/jumanor/cert.pem
+    # Clave Privada SSL/TLS (Opcional)
+    privateKeyFileTls=/home/jumanor/key.pem
+    ```
+5. Ejecuta ReFirma Invoker
 
     Windows
 
