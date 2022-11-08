@@ -1,0 +1,18 @@
+button{
+    height: 30px;
+}
+input {
+    width: 300px;
+    height: 25px;
+}
+label{
+    display: inline-block;
+    width: 200px;
+}
+.item{
+    margin: 10px;
+}
+.contenedorPDF{
+    display:flex;
+    flex-direction: row;
+}
