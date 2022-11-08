@@ -4,7 +4,7 @@ Implementación del Motor de Firma Digital - Refirma Invoker - del [RENIEC](http
 
 ***Refirma Invoker*** es parte de la ***ReFirma Suite*** y su uso es gratuito para las Entidades Públicas del Perú, su funcionamiento lo puede ver [acá](https://drive.google.com/file/d/1S-FrH2HX6vawsO4oXESUHwDsSQjJOGMj/view?usp=sharing)
 
-La versión [v1.1.0](https://github.com/jumanor/refirmainvoker/tree/v1.1.0) es el último lanzamiento
+La versión [v1.1.1](https://github.com/jumanor/refirmainvoker/tree/v1.1.1) es el último lanzamiento
 
 Para mayor información de esta implementación puede ver en el siguiente [video](https://www.youtube.com/watch?v=aOto5CStZNA)
 
@@ -26,13 +26,13 @@ Linux
 
 Esta disponible un video de la instalación en el siguiente [enlace](https://www.youtube.com/watch?v=7q4dS8y3Sws)
 
-Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [releases](https://github.com/jumanor/refirmainvoker/releases/tag/v1.1.0).
+Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [releases](https://github.com/jumanor/refirmainvoker/releases/tag/v1.1.1).
 
 1. Descargue el ejecutable
    
-   Windows: [main.exe](https://github.com/jumanor/refirmainvoker/releases/download/v1.1.0/main.exe)
+   Windows: [main.exe](https://github.com/jumanor/refirmainvoker/releases/download/v1.1.1/main.exe)
    
-   Linux:   [main](https://github.com/jumanor/refirmainvoker/releases/download/v1.1.0/main)
+   Linux:   [main](https://github.com/jumanor/refirmainvoker/releases/download/v1.1.1/main)
 
 2. Copia la carpeta **public** del repositorio esta contiene 2 imagenes: iFirma.png e iLogo.png
 3. Crea un archivo **config.properties** con los siguientes parametros :
