@@ -1,5 +1,5 @@
 ![Go](https://img.shields.io/badge/Golang-1.19-blue.svg?logo=go&longCache=true&style=flat)
-# Refirma Invoker - Reniec
+# Refirma Invoker Integration - Reniec
 Implementación del Motor de Firma Digital - Refirma Invoker - del [RENIEC](https://dsp.reniec.gob.pe/refirma_suite/main/web/main.jsf)
 
 ***Refirma Invoker*** es parte de la ***ReFirma Suite*** y su uso es gratuito para las Entidades Públicas del Perú, su funcionamiento lo puede ver [acá](https://drive.google.com/file/d/1S-FrH2HX6vawsO4oXESUHwDsSQjJOGMj/view?usp=sharing)
@@ -7,6 +7,18 @@ Implementación del Motor de Firma Digital - Refirma Invoker - del [RENIEC](http
 La versión [v1.1.1](https://github.com/jumanor/refirmainvoker/tree/v1.1.1) es el último lanzamiento
 
 Para mayor información de esta implementación puede ver en el siguiente [video](https://www.youtube.com/watch?v=aOto5CStZNA)
+
+# Características 
+- Soporte para firmar varios documentos (ReFirma PCX)
+- Api Rest, puede integrarse en cualquier proyecto web (Php, Python, Java, etc)
+- Json Web Tokens (JWT)
+- Soporte para protocolo https (SSL/TLS)
+
+# Documentos de la Implementación
+- Un paper https://cutt.ly/yN0cAXL
+- Refirma Suite https://bit.ly/2ktJRY2
+- Guía de integración invoker https://bit.ly/34wctnn
+- Argumentos invoker https://bit.ly/2J5nDHY
 
 # Requisitos
 
