@@ -1,6 +1,6 @@
 ![Go](https://img.shields.io/badge/Golang-1.19-blue.svg?logo=go&longCache=true&style=flat)
 # Refirma Invoker Integration - Reniec
-Implementación del Motor de Firma Digital - Refirma Invoker - del [RENIEC](https://dsp.reniec.gob.pe/refirma_suite/main/web/main.jsf)
+Implementación del Motor de Firma Digital - Refirma Invoker Integration - del [RENIEC](https://dsp.reniec.gob.pe/refirma_suite/main/web/main.jsf)
 
 ***Refirma Invoker*** es parte de la ***ReFirma Suite*** y su uso es gratuito para las Entidades Públicas del Perú, su funcionamiento lo puede ver [acá](https://drive.google.com/file/d/1S-FrH2HX6vawsO4oXESUHwDsSQjJOGMj/view?usp=sharing)
 
@@ -22,7 +22,7 @@ Para mayor información de esta implementación puede ver en el siguiente [video
 
 # Requisitos
 
-Para ejecutar Refirma Invoker es necesario que se contacte con la [RENIEC](https://dsp.reniec.gob.pe/refirma_suite/main/web/main.jsf) para que le brinde los identificadores **[clientId]** y **[clientSecret]**
+Para ejecutar *Refirma Invoker Integration* es necesario que se contacte con la [RENIEC](https://dsp.reniec.gob.pe/refirma_suite/main/web/main.jsf) para que le brinde los identificadores **[clientId]** y **[clientSecret]**
 
 Esta implementación usa [7-zip](https://www.7-zip.org/) que normalmente ya viene instalada en **LINUX**; sin embargo, en **WINDOWS** tendra que instalar manualmente y verificar que se puede acceder desde el terminal.
 
@@ -38,7 +38,7 @@ Linux
 
 Esta disponible un video de la instalación en el siguiente [enlace](https://www.youtube.com/watch?v=7q4dS8y3Sws)
 
-Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [releases](https://github.com/jumanor/refirmainvoker/releases/tag/v1.1.1).
+Se compilo *Refirma Invoker Integration* para Windows y Linux, y estan disponibles en los [releases](https://github.com/jumanor/refirmainvoker/releases/tag/v1.1.1).
 
 1. Descargue el ejecutable
    
@@ -53,7 +53,7 @@ Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [rel
     clientId=K57845459hkj
     # Identificador proporcionado por RENIEC
     clientSecret=TYUOPDLDFDG
-    # Direccion Ip y Puerto de escucha ReFirma Invoker
+    # Direccion Ip y Puerto de escucha ReFirma Invoker Integration
     serverAddress=0.0.0.0:9091
     # Clave secreta para generar Tokens
     secretKeyJwt=muysecretokenjwt
@@ -77,7 +77,7 @@ Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [rel
     # Clave Privada SSL/TLS (Opcional)
     privateKeyFileTls=/home/jumanor/key.pem
     ```
-5. Ejecuta ReFirma Invoker
+5. Ejecuta *ReFirma Invoker Integration*
 
     Windows
 
@@ -89,23 +89,28 @@ Se compilo Refirma Invoker para Windows y Linux, y estan disponibles en los [rel
 
 # Funcionamiento
 
-Esta disponible un video del funcionamiento en el siguiente [enlace](https://youtu.be/7q4dS8y3Sws?t=218)
+Esta implementación de *Refirma Invoker Integration* se puede usar en ***cualquier proyecto web*** (Php, Java, Python, etc) solo tiene que consumir las Api Rest implementadas, para controlar el acceso se usa JSON Web Tokens ([JWT](https://jwt.io/)).
 
-Copia la carpeta [example](https://github.com/jumanor/refirmainvoker/tree/master/example) de este repositorio en un Servidor Web y ejecuta **test.html**.
+Esta disponible un video del funcionamiento (ejemplos) en el siguiente [enlace](https://youtu.be/7q4dS8y3Sws?t=218).
 
-A pesar que todos los archivos del ejemplo son **estaticos** es necesario usar un Servidor Web debido a que se esta usando **ES6**.
+Refirma Invoker usa **Microsoft Click Once** para invocar a Refirma PCX.
 
-En caso use **Visual Studio Code** instale el plugin [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) que habilita un Servidor Web.
+En caso use **Visual Studio Code** instale el plugin [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) que habilita un Servidor Web Embebido.
 
-En el ejemplo se usa **Microsoft Click Once**; por lo tanto, si esta usando navegador **Chome** o **Firefox** instales los siguientes plugins:
+Para probar los ejemplos tiene que seguir los siguientes pasos:
 
-- Chrome instale este [plugin](https://chrome.google.com/webstore/detail/clickonce-for-google-chro/kekahkplibinaibelipdcikofmedafmb) 
+1. Si esta usando navegador **Chome** o **Firefox** instala los siguientes plugins para habilitar **Microsoft Click Once**:
 
-- Firefox instale este [plugin](https://addons.mozilla.org/es/firefox/addon/meta4clickoncelauncher/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search)
+    - Chrome instale este [plugin](https://chrome.google.com/webstore/detail/clickonce-for-google-chro/kekahkplibinaibelipdcikofmedafmb) 
 
-En caso use el navegador **Edge** no es necesario instalar nada adicional.
+    - Firefox instale este [plugin](https://addons.mozilla.org/es/firefox/addon/meta4clickoncelauncher/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search)  
+    
+2. En caso use el navegador **Edge** no es necesario instalar nada adicional.
 
-Esta implementacion de Refirma Invoker usa JSON Web Tokens ([JWT](https://jwt.io/)).
+3. Copia la carpeta [example](https://github.com/jumanor/refirmainvoker/tree/master/example) de este repositorio en un Servidor Web
+
+4. Ingresa a cualquier ejemplo que desee probar ejecutando **test.html**
+
 
 ``` javascript
 //Listamos los documentos que se desean firmar digitalmente
@@ -120,7 +125,7 @@ firmaParam.posy=12;
 firmaParam.reason="Soy el autor del documento pdf";
 firmaParam.stampSigned="http://miservidor.com/estampillafirma.png";//parametro opcional
 
-//Llamamos a Refirma Invoker con la dirección ip en donde se ejecuta main.exe o main
+//Llamamos a Refirma Invoker Integration con la dirección ip en donde se ejecuta main.exe o main
 let firma=new RefirmaInvoker("http://192.168.1.10:9091");
 //Importante:
 //El Sistema de Gestion Documental se encarga de la autenticación y envía un token al Cliente
@@ -138,7 +143,7 @@ El *Sistema de Gestión Documental* autentica a los Usuarios normalmente contra 
 despues de la autencación satisfactoria se debe de consumir  el API REST /autenticacion de ReFirma Invoker 
 y enviar el **token** al Cliente.
 
-![a link](https://drive.google.com/uc?export=view&id=1cvW39tUvRkCctHetWvhqJskCnXQwRWKn)
+![a link](https://drive.google.com/uc?export=view&id=1h4dQG-IFukSkxRO2CEM5zuWIVmisxuCU)
 
 Ejemplo en Python
 ``` python
