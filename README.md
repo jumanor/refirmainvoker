@@ -22,7 +22,7 @@ Para mayor información de esta implementación puede ver en el siguiente [video
 
 # Requisitos
 
-Para ejecutar *Refirma Invoker Integration* es necesario que se contacte con la [RENIEC](https://dsp.reniec.gob.pe/refirma_suite/main/web/main.jsf) para que le brinde los identificadores **[clientId]** y **[clientSecret]**
+Para ejecutar *Refirma Invoker Integration* es necesario que el Representante de la Entidad Pública firme digitalmente un contrato que se encuentra en la Plataforma ***EREP*** luego debe de enviar un correo a identidadigital@reniec.gob.pe solicitando la creación de los identificadores **[clientId]** y **[clientSecret]** para el uso de Refirma Invoker en el Sistema de Gestión Documental de su institución.   
 
 Esta implementación usa [7-zip](https://www.7-zip.org/) que normalmente ya viene instalada en **LINUX**; sin embargo, en **WINDOWS** tendra que instalar manualmente y verificar que se puede acceder desde el terminal.
 
