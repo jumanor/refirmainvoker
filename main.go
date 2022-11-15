@@ -102,9 +102,9 @@ func main() {
 	servidor := &http.Server{
 		Handler: enrutador,
 		Addr:    SERVER_ADDRESS,
-		// Timeouts para evitar que el servidor se quede "colgado" por siempre
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
+		// Timeouts para evitar que el servidor se quede "colgado" por siempre (2 minutos)
+		WriteTimeout: 120 * time.Second,
+		ReadTimeout:  120 * time.Second,
 	}
 
 	if CERTIFICATE_FILE_TLS != "" && PRIVATE_KEY_FILE_TLS != "" {
