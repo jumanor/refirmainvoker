@@ -34,6 +34,12 @@ Linux
 
     jumanor@ubuntu:~$7z i
 
+**Nota:** Para instalar en Centos 7 seguir los siguientes pasos :
+1) yum install epel-release         *(instalamos repositorio epel)*
+2) yum install p7zip                *(instalamos p7zip)*
+3) ln -s /usr/bin/7za /usr/bin/7z   *(creamos enlace simbolico a 7z)*
+
+
 # Instalación
 
 Esta disponible un video de la instalación en el siguiente [enlace](https://www.youtube.com/watch?v=7q4dS8y3Sws)
