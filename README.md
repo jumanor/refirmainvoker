@@ -34,11 +34,17 @@ Linux
 
     jumanor@ubuntu:~$7z i
 
-**Nota:** Para instalar en Centos 7 seguir los siguientes pasos :
-1) yum install epel-release         *(instalamos repositorio epel)*
-2) yum install p7zip                *(instalamos p7zip)*
-3) ln -s /usr/bin/7za /usr/bin/7z   *(creamos enlace simbolico a 7z)*
+Para instalar 7z en **Centos 7** seguir los siguientes pasos:
+1) Abrir un terminal
+2) yum install epel-release         *(instalamos repositorio epel)*
+3) yum install p7zip                *(instalamos p7zip)*
+4) ln -s /usr/bin/7za /usr/bin/7z   *(creamos enlace simbolico a 7z)*
 
+Para instalar 7z en **Windows 10** seguir los siguientes pasos:
+1) Descargar e instalar 7z de [aquí](https://www.7-zip.org/)
+2) La ruta de instalacion por defecto es C:\Program Files\7-Zip
+4) Abrir un cmd *(simbolo de sistema o consola de comandos)*
+3) setx path "%path%;C:\Program Files\7-Zip"    *(actualizamos la variable de entorno path)*
 
 # Instalación
 
