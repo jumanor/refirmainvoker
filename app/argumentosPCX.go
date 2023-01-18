@@ -25,7 +25,7 @@ var MAX_FILE_SIZE_7Z string
 
 // Cadena de argumentos que se envia a refirma PCX
 func paramWeb(protocol string, documentName string, fileDownloadUrl string, fileDownloadLogoUrl string, fileDownloadStampUrl string,
-	fileUploadUrl string, posx string, posy string, reason string, token string) ([]byte, error) {
+	fileUploadUrl string, posx string, posy string, reason string, pageNumber string, token string) ([]byte, error) {
 
 	param := make(map[string]string)
 
@@ -44,7 +44,7 @@ func paramWeb(protocol string, documentName string, fileDownloadUrl string, file
 	param["reason"] = reason
 	param["isSignatureVisible"] = "true"
 	param["stampAppearanceId"] = "0"
-	param["pageNumber"] = "0"
+	param["pageNumber"] = pageNumber
 	param["posx"] = posx
 	param["posy"] = posy
 	param["fontSize"] = "7"
@@ -180,6 +180,7 @@ type DatoArgumentos struct {
 		Posy        int    `json:"posy"`
 		Reason      string `json:"reason"`
 		StampSigned string `json:"stampSigned"`
+		PageNumber  int    `json:"pageNumber"`
 	} `json:"firma"`
 }
 
@@ -223,6 +224,7 @@ func ArgumentsServletPCX(w http.ResponseWriter, r *http.Request) {
 	fileDownloadLogoUrl := serverURL + "/public/iLogo.png"
 	fileDownloadStampUrl := serverURL + "/public/iFirma.png"
 	fileUploadUrl := serverURL + "/upload7z"
+	pageNumber := "0"
 	posx := strconv.Itoa(inputParameter.Firma.Posx)
 	posy := strconv.Itoa(inputParameter.Firma.Posy)
 	reason := inputParameter.Firma.Reason
@@ -231,8 +233,12 @@ func ArgumentsServletPCX(w http.ResponseWriter, r *http.Request) {
 		fileDownloadStampUrl = inputParameter.Firma.StampSigned
 	}
 
+	if inputParameter.Firma.PageNumber != 0 {
+		pageNumber = strconv.Itoa(inputParameter.Firma.PageNumber)
+	}
+
 	param, err := paramWeb(protocol, documentName7z, fileDownloadUrl, fileDownloadLogoUrl,
-		fileDownloadStampUrl, fileUploadUrl, posx, posy, reason, token)
+		fileDownloadStampUrl, fileUploadUrl, posx, posy, reason, pageNumber, token)
 	if err != nil {
 		logging.Log().Error().Err(err).Send()
 		w.WriteHeader(http.StatusNotFound) //codigo http 404
