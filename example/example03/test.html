@@ -13,9 +13,11 @@
 
         import {RefirmaInvoker} from './../lib/refirmaInvoker.js'
         import {FirmaPosicion} from './../lib/firmaPosicion.js';
+        import {Signature} from './../lib/signature.js';
         var firmaPosicion=new FirmaPosicion(document.getElementById("rectangleFirma"))
+        let signature=new Signature();
         
-        window.RUTA_PARENT=window.location.origin+"/example01"
+        window.RUTA_PARENT=window.location.origin+"/example03"
 
         window.cargarPrevioPdf=function(){
 
@@ -39,26 +41,25 @@
             var pdf=await loadingTask.promise;        
             
             var pageNumber = 1;
+
+            let stuff=await pdf.getData()
+            let pdfTexto = new TextDecoder("utf-8").decode(stuff);
+            let signatures=signature.signaturesByPage(pdfTexto,pageNumber);
+
             var page= await pdf.getPage(pageNumber);
                     
-            var scale = 0.5;
+            var scale = 0.75;
             var viewport = page.getViewport({scale: scale});
             
             console.log(viewport.viewBox)//ancho y altura de la pagina
 
             // Prepare canvas using PDF page dimensions
-            var canvas = document.getElementById('canvasDocumentFirma');
+            var canvasContentPDF = document.getElementById('canvasDocumentFirma');
         
-            var context = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
+            var context = canvasContentPDF.getContext('2d');
+            canvasContentPDF.height = viewport.height;
+            canvasContentPDF.width = viewport.width;
 
-            console.log(viewport.height)
-
-            firmaPosicion.sizeCanvas(canvas.width,canvas.height)
-            firmaPosicion.setScale(scale);
-            firmaPosicion.dibujarInicio(20,20,"rgba(127, 191, 63, 0.5)");
-        
             // Render PDF page into canvas context
             var renderContext = {
                 canvasContext: context,
@@ -67,7 +68,15 @@
 
             var renderTask = page.render(renderContext);
             await renderTask.promise;
-            console.log('Page rendered');
+            console.log('Page rendered into canvasDocumentFirma');
+
+            
+            firmaPosicion.sizeCanvas(canvasContentPDF.width,canvasContentPDF.height)
+            firmaPosicion.setScale(scale);
+            firmaPosicion.dibujarSignatures(canvasContentPDF,signatures,"rgb(255, 0, 0,0.1)");//se debe de llamar antes de dibujarInicio()
+            firmaPosicion.dibujarInicio(10,10,"rgba(127, 191, 63, 0.5)");
+           
+
     }//////////////////////////////////////////////////////////////////////////////////////////////////
     window.cargarArgumento=async function (posx,posy){
 
@@ -80,9 +89,10 @@
             
 
             let firmaParam={};
-            firmaParam.posx=posx;
-            firmaParam.posy=posy;
+            firmaParam.posx=Math.round(posx);
+            firmaParam.posy=Math.round(posy);
             firmaParam.reason="soy el autor de este super documento";
+            firmaParam.stampSigned=window.RUTA_PARENT+"/kaminosoft.png"
             
             var url_server= document.getElementById("url_refirma_invoker").value;
             //Direccion IP del Servidor Refirma
@@ -143,10 +153,10 @@
         
     </div>
     <div class="contenedorPDF item">
-        <iframe id="frame1" src="" width="50%" height="400px" frameborder="1">
+        <iframe id="frame1" src="" width="50%" height="500px" frameborder="1">
         </iframe>
 
-        <iframe id="frame2" src="" width="50%" height="400px" frameborder="1">    
+        <iframe id="frame2" src="" width="50%" height="500px" frameborder="1">    
         </iframe>
     </div>
     
