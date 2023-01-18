@@ -20,7 +20,7 @@ export class Signature{
                 let pageObj=element.slice(indexIni,indexFin).split(" ")[1]
                 let rect = element.slice(element.indexOf("[")+1,element.indexOf("]")).split(" ");
 
-                if(rect[3]==rect[4] && rect[3]<=1){//firma sin representacion grafica [0.0 0.0 0.0 0.0]
+                if(rect[2]<=1 || rect[3]<=1){//firma sin representacion grafica [0.0 0.0 0.0 0.0]
                     return;
                 }
                 
