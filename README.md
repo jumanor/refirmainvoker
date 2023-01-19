@@ -103,7 +103,7 @@ Se compilo *Refirma Invoker Integration* para Windows y Linux, y estan disponibl
 
 Esta implementación de *Refirma Invoker Integration* se puede usar en ***cualquier proyecto web*** (Php, Java, Python, etc) solo tiene que consumir las Api Rest implementadas, para controlar el acceso se usa JSON Web Tokens ([JWT](https://jwt.io/)).
 
-Esta disponible un video del funcionamiento (ejemplos) en el siguiente [enlace](https://youtu.be/7q4dS8y3Sws?t=218).
+Esta disponible un video del funcionamiento (ejemplos) en los siguientes enlaces: [enlace1](https://youtu.be/7q4dS8y3Sws?t=218), [enlace2](https://www.youtube.com/watch?v=GPdfa7NeKZw).
 
 Refirma Invoker usa **Microsoft Click Once** para invocar a Refirma PCX.
 
