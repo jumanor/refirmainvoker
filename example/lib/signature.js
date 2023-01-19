@@ -63,6 +63,10 @@ export class Signature{
             //console.log(arregloDeSignatures)
             return arregloDeSignatures
         }
+        else{   //El documento no tienes firmas digitales
+
+            return []
+        }
     }
     //////////////////////////////////////////////////////////////////////PRIVATE///////////////////////////////////////////////////////////
     _formatoCorrecto(pdfTexto){
