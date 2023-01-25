@@ -9,11 +9,20 @@
     <script defer type="text/javascript" src="../lib/addComponent.js"></script>
     <script defer type="text/javascript" src="https://dsp.reniec.gob.pe/refirma_invoker/resources/js/clientclickonce.js"></script>
     <link rel="stylesheet" href="style.css">
+
+    <!--un simple spin-->
+    <link rel="stylesheet" href="utils/spinLib.css">
+    <script defer type="text/javascript" src="utils/spinLib.js"></script>
+
     <script type="module">
 
         import {RefirmaInvoker} from './../lib/refirmaInvoker.js'
         import {FirmaPosicion} from './../lib/firmaPosicion.js';
         import {Signature} from './../lib/signature.js';
+        
+        //un simple spin
+        import {Spin} from './utils/spin.js'
+
         var firmaPosicion=new FirmaPosicion(document.getElementById("rectangleFirma"))
         let signature=new Signature();
         
@@ -82,6 +91,8 @@
 
         try{
             
+            Spin.load();
+
             let pdfs=[];
             
             pdfs[0]={url:document.getElementById("pdf1").value,name:"doc1"};
@@ -92,7 +103,8 @@
             firmaParam.posx=Math.round(posx);
             firmaParam.posy=Math.round(posy);
             firmaParam.reason="soy el autor de este super documento";
-            firmaParam.stampSigned=window.RUTA_PARENT+"/kaminosoft.png"
+            //Esta imagen debe ser descargable desde el servidor refirma
+            //firmaParam.stampSigned=window.RUTA_PARENT+"/kaminosoft.png"
             
             var url_server= document.getElementById("url_refirma_invoker").value;
             //Direccion IP del Servidor Refirma
@@ -108,9 +120,11 @@
             document.getElementById("frame1").src=url_base+"/"+encodeURI("doc1")+"/"+encodeURI(token)//GET (PDF)
             document.getElementById("frame2").src=url_base+"/"+encodeURI("doc2")+"/"+encodeURI(token)//GET (PDF)
             
+            Spin.unload();
 
         }catch(error){
-
+            
+            Spin.unload();
             window.alert(error);
             console.log(error);
         }
