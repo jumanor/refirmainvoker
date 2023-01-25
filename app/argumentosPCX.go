@@ -184,6 +184,11 @@ type DatoArgumentos struct {
 	} `json:"firma"`
 }
 
+func isUrlAvailable(s string) bool {
+	r, e := http.Head(s)
+	return e == nil && r.StatusCode == 200
+}
+
 // URI llamado por el Cliente para contruir Cadena de Argumentos en BASE64
 func ArgumentsServletPCX(w http.ResponseWriter, r *http.Request) {
 
@@ -231,6 +236,13 @@ func ArgumentsServletPCX(w http.ResponseWriter, r *http.Request) {
 
 	if inputParameter.Firma.StampSigned != "" {
 		fileDownloadStampUrl = inputParameter.Firma.StampSigned
+		if isUrlAvailable(fileDownloadStampUrl) == false { //esta imagen es muy pequeña
+			err = errors.New("No se pudo descargar imagen " + fileDownloadStampUrl)
+			logging.Log().Error().Err(err).Send()
+			w.WriteHeader(http.StatusNotFound) //codigo http 404
+			w.Write([]byte(err.Error()))
+			return
+		}
 	}
 
 	if inputParameter.Firma.PageNumber != 0 {
