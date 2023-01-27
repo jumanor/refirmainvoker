@@ -33,7 +33,7 @@
             document.getElementById("pdf1").value=window.RUTA_PARENT+"/01.pdf";
             document.getElementById("pdf2").value=window.RUTA_PARENT+"/02.pdf";
 
-            document.getElementById("stamp").src=window.RUTA_PARENT+"/iFirma2.png";
+            document.getElementById("stamp").src="https://raw.githubusercontent.com/jumanor/refirmainvoker/master/public/iFirma2.png"
 
            
         }
@@ -59,7 +59,7 @@
                 firmaParam.posx=parseInt(document.getElementById("posx").value);//10;
                 firmaParam.posy=parseInt(document.getElementById("posy").value);//12;
                 firmaParam.reason=document.getElementById("asunto").value;//"soy el autor de este super documento";
-                firmaParam.stampSigned=document.getElementById("stamp").src;//"http://127.0.0.1:5500/iFirma.png"
+                firmaParam.stampSigned=document.getElementById("stamp").src;
                 
                 var url_server= document.getElementById("url_refirma_invoker").value;
                 
@@ -132,10 +132,10 @@
        // let valor=document.querySelector('input[name="imagen"]:checked').value;
         let valor=radio.value
         if(valor==1){
-            document.getElementById("stamp").src=window.RUTA_PARENT+"/iFirma.png";//"http://127.0.0.1:5500/iFirma.png";
+            document.getElementById("stamp").src="https://raw.githubusercontent.com/jumanor/refirmainvoker/master/public/iFirma.png"
         }
         if(valor==2){
-            document.getElementById("stamp").src=window.RUTA_PARENT+"/iFirma2.png";//"http://127.0.0.1:5500/iFirma2.png";
+            document.getElementById("stamp").src="https://raw.githubusercontent.com/jumanor/refirmainvoker/master/public/iFirma2.png"
         }
 
     }//////////////////////////////////////////////////////////////////////////////////////////////////
