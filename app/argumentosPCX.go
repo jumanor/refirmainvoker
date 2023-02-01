@@ -12,6 +12,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -234,10 +235,26 @@ func ArgumentsServletPCX(w http.ResponseWriter, r *http.Request) {
 	posy := strconv.Itoa(inputParameter.Firma.Posy)
 	reason := inputParameter.Firma.Reason
 
+	//parametros opcionales
 	if inputParameter.Firma.StampSigned != "" {
 		fileDownloadStampUrl = inputParameter.Firma.StampSigned
 		if isUrlAvailable(fileDownloadStampUrl) == false { //esta imagen es muy pequeña
 			err = errors.New("No se pudo descargar imagen " + fileDownloadStampUrl)
+			logging.Log().Error().Err(err).Send()
+			w.WriteHeader(http.StatusNotFound) //codigo http 404
+			w.Write([]byte(err.Error()))
+			return
+		}
+		//Restriccion muy extraña de Refirma Invoker
+		if protocol == "T" && strings.Contains(fileDownloadStampUrl, "https://") {
+			err = errors.New("No se pudo descargar imagen " + fileDownloadStampUrl + " utilice protocolo http")
+			logging.Log().Error().Err(err).Send()
+			w.WriteHeader(http.StatusNotFound) //codigo http 404
+			w.Write([]byte(err.Error()))
+			return
+		}
+		if protocol == "S" && strings.Contains(fileDownloadStampUrl, "https://") == false {
+			err = errors.New("No se pudo descargar imagen " + fileDownloadStampUrl + " utilice protocolo https")
 			logging.Log().Error().Err(err).Send()
 			w.WriteHeader(http.StatusNotFound) //codigo http 404
 			w.Write([]byte(err.Error()))
