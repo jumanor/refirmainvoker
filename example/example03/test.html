@@ -46,7 +46,7 @@
             var modal = document.getElementById("myModal");
             modal.style.display = "flex";
 
-            var loadingTask = await pdfjsLib.getDocument(window.RUTA_PARENT+'/01.pdf');
+            var loadingTask = await pdfjsLib.getDocument(document.getElementById("pdf1").value);
             var pdf=await loadingTask.promise;        
             
             var pageNumber = 1;
