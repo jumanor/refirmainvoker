@@ -85,9 +85,9 @@ Se compilo *Refirma Invoker Integration* para Windows y Linux, y estan disponibl
 4. En caso desee habilitar protocolo **https** es necesario que ingrese los siguientes parametros :
     ``` bash
     # Certificado SSL/TLS (Opcional)
-    certificateFileTls=/home/jumanor/cert.pem
+    certificateFileTls=/etc/letsencrypt/live/midominio.com/fullchain.pem
     # Clave Privada SSL/TLS (Opcional)
-    privateKeyFileTls=/home/jumanor/key.pem
+    privateKeyFileTls=/etc/letsencrypt/live/midominio.com/privkey.pem
     ```
 5. Ejecuta *ReFirma Invoker Integration*
 
