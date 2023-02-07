@@ -47,6 +47,17 @@
         window.cargarArgumento=async function (){
 
             try{
+
+                var url_server= document.getElementById("url_refirma_invoker").value;
+                
+                if(url_server.includes("https://")==false){
+                    //En este ejemplo las imagenes usan protocolo https, esta es una restriccion extraña de Refirma Invoker
+                    //Solo comente:
+                    //firmaParam.stampSigned=document.getElementById("stamp").src;
+                    //para saltar la restriccion
+                    Dialog.alert("Este ejemplo solo funciona si el Servidor Refirma Invoker "+url_server+" usa SSL (https)")
+                    return;
+                }
                
                 let pdfs=[];
                 //pdfs[0]={url:"http://127.0.0.1:5500/01.pdf",name:"doc1"};
@@ -61,7 +72,6 @@
                 firmaParam.reason=document.getElementById("asunto").value;//"soy el autor de este super documento";
                 firmaParam.stampSigned=document.getElementById("stamp").src;
                 
-                var url_server= document.getElementById("url_refirma_invoker").value;
                 
                 Spin.load();
                 //Direccion IP del Servidor Refirma
@@ -158,7 +168,7 @@
         <div>
             <div class="item">
                 <label>REFIRMA INVOKER</label>
-                <input id="url_refirma_invoker" type="text" value="http://127.0.0.1:9091">
+                <input id="url_refirma_invoker" type="text" value="https://127.0.0.1:9091">
             </div>
             <div class="item">
                 <label> DOCUMENTO 01</label>
