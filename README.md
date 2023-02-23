@@ -8,6 +8,7 @@ La versión [v1.1.7](https://github.com/jumanor/refirmainvoker/tree/v1.1.7) es e
 
 Para mayor información de esta implementación puede ver en el siguiente [video](https://www.youtube.com/watch?v=aOto5CStZNA)
 
+En caso conozcas **Java** revisa la implementación de Refirma Invoker construido con **Java** [acá](https://github.com/jumanor/refirmainvoker-java)
 # Características 
 - Soporte para firmar varios documentos (ReFirma PCX)
 - Api Rest, puede integrarse en cualquier proyecto web (Php, Python, Java, etc)
@@ -59,7 +60,7 @@ Se compilo *Refirma Invoker Integration* para Windows y Linux, y estan disponibl
    Linux 64-bit:   [main](https://github.com/jumanor/refirmainvoker/releases/download/v1.1.7/main)
 
 2. Copia la carpeta **public** del repositorio esta contiene 2 imagenes: iFirma.png e iLogo.png
-3. Crea un archivo **config.properties** con los siguientes parametros :
+3. Crea un archivo **conedirect.php?alias=homefig.properties** con los siguientes parametros :
     ``` bash
     # Identificador proporcionado por RENIEC
     clientId=K57845459hkj
