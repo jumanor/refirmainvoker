@@ -48,15 +48,18 @@
 
             try{
 
-                var url_server= document.getElementById("url_refirma_invoker").value;
+                var url_server_invoker= document.getElementById("url_refirma_invoker").value;
                 
-                if(url_server.includes("https://")==false){
+                if(url_server_invoker.includes("https://")==false){
                     //En este ejemplo las imagenes usan protocolo https, esta es una restriccion extraña de Refirma Invoker
                     //Solo comente:
                     //firmaParam.stampSigned=document.getElementById("stamp").src;
                     //para saltar la restriccion
-                    Dialog.alert("Este ejemplo solo funciona si el Servidor Refirma Invoker "+url_server+" usa SSL (https)")
-                    return;
+                    //IMPORTANTE:
+                    //Si el servidor invoker no usa protocolo https, entonces aun es posible usar la imagen pero tambien 
+                    //sin protocolo https. 
+                    await Dialog.alert("Este ejemplo solo funciona si el Servidor Refirma Invoker "+url_server_invoker+" usa SSL (https), "+ 
+                    "se continuara la ejecución pero se usara la imagen de la estampilla por defecto")
                 }
                
                 let pdfs=[];
@@ -70,12 +73,13 @@
                 firmaParam.posx=parseInt(document.getElementById("posx").value);//10;
                 firmaParam.posy=parseInt(document.getElementById("posy").value);//12;
                 firmaParam.reason=document.getElementById("asunto").value;//"soy el autor de este super documento";
-                firmaParam.stampSigned=document.getElementById("stamp").src;
+                if(url_server_invoker.includes("https://")==true)
+                    firmaParam.stampSigned=document.getElementById("stamp").src;
                 
                 
                 Spin.load();
                 //Direccion IP del Servidor Refirma
-                let firma=new RefirmaInvoker(url_server);
+                let firma=new RefirmaInvoker(url_server_invoker);
                 //El metodo autenticacion() solo debe ser usado para testeo
                 //nunca debe ser usado en el Cliente. 
                 //
@@ -168,7 +172,7 @@
         <div>
             <div class="item">
                 <label>REFIRMA INVOKER</label>
-                <input id="url_refirma_invoker" type="text" value="https://127.0.0.1:9091">
+                <input id="url_refirma_invoker" type="text" value="http://127.0.0.1:9091">
             </div>
             <div class="item">
                 <label> DOCUMENTO 01</label>
