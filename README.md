@@ -60,7 +60,7 @@ Se compilo *Refirma Invoker Integration* para Windows y Linux, y estan disponibl
    Linux 64-bit:   [main](https://github.com/jumanor/refirmainvoker/releases/download/v1.1.7/main)
 
 2. Copia la carpeta **public** del repositorio esta contiene 2 imagenes: iFirma.png e iLogo.png
-3. Crea un archivo **conedirect.php?alias=homefig.properties** con los siguientes parametros :
+3. Crea un archivo **config.properties** con los siguientes parametros :
     ``` bash
     # Identificador proporcionado por RENIEC
     clientId=K57845459hkj
