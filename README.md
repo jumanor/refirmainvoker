@@ -47,7 +47,7 @@ Para instalar 7z en **Windows 10** seguir los siguientes pasos:
 4) Abrir un cmd *(simbolo de sistema o consola de comandos)*
 3) setx path "%path%;C:\Program Files\7-Zip"    *(actualizamos la variable de entorno path)*
 
-# Instalación
+# Instalación del Servidor
 
 Esta disponible un video de la instalación en el siguiente [enlace](https://www.youtube.com/watch?v=7q4dS8y3Sws)
 
@@ -100,17 +100,10 @@ Se compilo *Refirma Invoker Integration* para Windows y Linux, y estan disponibl
 
         ./main
 
-# Funcionamiento
-
-Esta implementación de *Refirma Invoker Integration* se puede usar en ***cualquier proyecto web*** (Php, Java, Python, etc) solo tiene que consumir las Api Rest implementadas, para controlar el acceso se usa JSON Web Tokens ([JWT](https://jwt.io/)).
-
-Esta disponible un video del funcionamiento (ejemplos) en los siguientes enlaces: [enlace1](https://youtu.be/7q4dS8y3Sws?t=218), [enlace2](https://www.youtube.com/watch?v=GPdfa7NeKZw).
+# Instalación del Cliente
+Estan disponibles videos del funcionamiento (ejemplos) en los siguientes enlaces: [enlace1](https://www.youtube.com/watch?v=GPdfa7NeKZw).
 
 Refirma Invoker usa **Microsoft Click Once** para invocar a Refirma PCX.
-
-En caso use **Visual Studio Code** instale el plugin [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) que habilita un Servidor Web Embebido.
-
-Para probar los ejemplos tiene que seguir los siguientes pasos:
 
 1. Si esta usando navegador **Chome** o **Firefox** instala los siguientes plugins para habilitar **Microsoft Click Once**:
 
@@ -118,12 +111,17 @@ Para probar los ejemplos tiene que seguir los siguientes pasos:
 
     - Firefox instale este [plugin](https://addons.mozilla.org/es/firefox/addon/meta4clickoncelauncher/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search)  
     
-2. En caso use el navegador **Edge** no es necesario instalar nada adicional.
+2. En caso use el navegador **Edge** no es necesario instalar nada adicional (Recomendable).
 
-3. Copia la carpeta [example](https://github.com/jumanor/refirmainvoker/tree/master/example) de este repositorio en un Servidor Web
+3. Copia la carpeta [example](https://github.com/jumanor/refirmainvoker/tree/master/example) de este repositorio en un Servidor Web (ver el siguiente [video](https://youtu.be/7q4dS8y3Sws?t=218) para mayor detalle)
 
-4. Ingresa a cualquier ejemplo que desee probar ejecutando **test.html**
+    3.1. En caso use **Visual Studio Code** instale el plugin [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) que habilita un Servidor Web Embebido (Recomendable).
 
+4. Ingresa a cualquier ejemplo que desee probar ejecutando **http://a.b.c.d/example01/test.html**
+
+# Funcionamiento
+
+A continuación un manera simplicada del uso de Refirma Invoker Integration con **JavaScript** del lado del Cliente:
 
 ``` javascript
 //Listamos los documentos que se desean firmar digitalmente
@@ -141,7 +139,7 @@ firmaParam.pageNumber=0; //parametro opcional, pagina donde se pondra la firma v
 
 //Llamamos a Refirma Invoker Integration con la dirección ip en donde se ejecuta main.exe o main
 let firma=new RefirmaInvoker("http://192.168.1.10:9091");
-//Importante:
+//Muy importante !!!
 //El Sistema de Gestion Documental se encarga de la autenticación y envía un token al Cliente
 //Este método se usa solo como demostración no se debe de usar en el Cliente
 let token=await firma.autenticacion("usuarioAccesoApi");
@@ -153,13 +151,19 @@ document.getElementById("frame1").src=url_base+"/"+encodeURI("doc1")+"/"+encodeU
 document.getElementById("frame2").src=url_base+"/"+encodeURI("doc2")+"/"+encodeURI(token);
 ```          
 
+# Integrando a un Sistema de Gestion Documental
+
+Esta implementación de *Refirma Invoker Integration* se puede usar en ***cualquier proyecto web*** (Php, Java, Python, etc) solo tiene que consumir las Api Rest implementadas, para controlar el acceso se usa JSON Web Tokens ([JWT](https://jwt.io/))
+
 El *Sistema de Gestión Documental* autentica a los Usuarios normalmente contra una Base de Datos,
-despues de la autencación satisfactoria se debe de consumir  el API REST /autenticacion de ReFirma Invoker 
+despues de la autencación satisfactoria se debe de consumir  el API REST **/autenticacion** de ReFirma Invoker 
 y enviar el **token** al Cliente.
 
 ![a link](https://drive.google.com/uc?export=view&id=1h4dQG-IFukSkxRO2CEM5zuWIVmisxuCU)
 
-Ejemplo en Python
+A continuacion algunos ejemplos de captura del **token de autenticación**:
+
+Ejemplo con Python
 ``` python
 import requests
 import json
@@ -171,7 +175,7 @@ if response.status_code == 200:
 	print(token)
 
 ```
-Ejemplo en Php
+Ejemplo con Php
 ``` php
 $params=array("usuarioAccesoApi"=>"usuarioAccesoApi");
 $postdata=json_encode($params);
