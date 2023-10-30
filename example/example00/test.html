@@ -1,0 +1,73 @@
+<html>
+<head>
+
+    <script defer type="text/javascript" src="../lib/addComponent.js"></script>
+    <script defer type="text/javascript" src="https://dsp.reniec.gob.pe/refirma_invoker/resources/js/clientclickonce.js"></script>
+    <link rel="stylesheet" href="style.css">
+	
+    <script type="module">
+
+        import {RefirmaInvoker} from './../lib/refirmaInvoker.js'
+        
+        window.cargarArgumento=async function (){
+			
+			 if(document.getElementById("pdf1").value.trim()==""){
+				window.alert("Ingrese documento PDF a firmar");
+				return;
+			 }
+			
+			document.getElementById("frame1").src=document.getElementById("pdf1").value;
+			
+            try{
+                
+                let pdfs=[];
+                pdfs[0]={url:document.getElementById("pdf1").value,name:"doc1"};
+            
+                let firmaParam={};
+                firmaParam.posx=10;
+                firmaParam.posy=12;
+                firmaParam.reason="soy el autor de este super documento";
+                
+                var url_server= document.getElementById("url_refirma_invoker").value;
+               
+                let firma=new RefirmaInvoker(url_server);
+                
+                let token=await firma.autenticacion("usuarioAccesoApi");
+                let url_base=await firma.ejecutar(pdfs,firmaParam,token);
+                
+                document.getElementById("frame1").src=url_base+"/"+encodeURI("doc1")+"/"+encodeURI(token)//GET (PDF)
+				
+				//Solo utilizado por webview2 de .NET (Aplicacion de Escritorio)
+				if(window.chrome.webview != undefined)
+					window.chrome.webview.postMessage(url_base+"/"+encodeURI("doc1")+"/"+encodeURI(token));
+				
+            }catch(error){
+
+                window.alert(error);
+                console.log(error);
+            }
+
+    }//////////////////////////////////////////////////////////////////////////////////////////////////
+
+    </script>
+
+</head>
+<body>
+    
+    <div id="contenedor">
+			
+			<!-- REFIRMA INVOKER -->
+			<label>REFIRMA INVOKER</label>
+            <input id="url_refirma_invoker" type="text" value="http://127.0.0.1:9091">
+            <!-- PDF -->
+			<label> DOCUMENTO PDF</label>
+			<input id="pdf1" type="text" value="">
+			<button   id="buttonEjecutar" onclick="cargarArgumento()">Firmar Documentos</button>
+		
+    </div>
+	
+	<iframe style="width:100%;height:100%" id="frame1" src=""  frameborder="0">
+	</iframe>
+    
+</body>
+</html>
