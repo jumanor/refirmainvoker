@@ -29,7 +29,7 @@ Para ejecutar *Refirma Invoker Integration* es necesario que el Representante de
 
 Esta disponible un video de la instalación en el siguiente [enlace](https://www.youtube.com/watch?v=7q4dS8y3Sws)
 
-#### Requisito
+### Requisito
 Esta implementación usa [7-zip](https://www.7-zip.org/) que normalmente ya viene instalada en **LINUX**; sin embargo, en **WINDOWS** tendra que instalar manualmente y verificar que se puede acceder desde el terminal.
 
 Windows
@@ -52,7 +52,7 @@ Para instalar 7z en **Windows 10** seguir los siguientes pasos:
 4) Abrir un cmd *(simbolo de sistema o consola de comandos)*
 3) setx path "%path%;C:\Program Files\7-Zip"    *(actualizamos la variable de entorno path)*
 
-#### Instalación
+### Instalación
 Se compilo *Refirma Invoker Integration* para Windows y Linux, y estan disponibles en los [releases](https://github.com/jumanor/refirmainvoker/releases/tag/v1.1.7).
 
 1. Descargue el ejecutable
