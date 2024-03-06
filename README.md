@@ -21,10 +21,15 @@ En caso conozcas **Java** revisa la implementación de Refirma Invoker construid
 - Guía de integración invoker https://bit.ly/34wctnn
 - Argumentos invoker https://bit.ly/2J5nDHY
 
-# Requisitos
+# Cómo solicitar identificadores? 
 
 Para ejecutar *Refirma Invoker Integration* es necesario que el Representante de la Entidad Pública firme digitalmente un contrato que se encuentra en la Plataforma ***EREP*** luego debe de enviar un correo a identidadigital@reniec.gob.pe solicitando la creación de los identificadores **[clientId]** y **[clientSecret]** para el uso de Refirma Invoker en el Sistema de Gestión Documental de su institución.   
 
+# Instalación del Servidor
+
+Esta disponible un video de la instalación en el siguiente [enlace](https://www.youtube.com/watch?v=7q4dS8y3Sws)
+
+#### Requisito
 Esta implementación usa [7-zip](https://www.7-zip.org/) que normalmente ya viene instalada en **LINUX**; sin embargo, en **WINDOWS** tendra que instalar manualmente y verificar que se puede acceder desde el terminal.
 
 Windows
@@ -47,10 +52,7 @@ Para instalar 7z en **Windows 10** seguir los siguientes pasos:
 4) Abrir un cmd *(simbolo de sistema o consola de comandos)*
 3) setx path "%path%;C:\Program Files\7-Zip"    *(actualizamos la variable de entorno path)*
 
-# Instalación del Servidor
-
-Esta disponible un video de la instalación en el siguiente [enlace](https://www.youtube.com/watch?v=7q4dS8y3Sws)
-
+#### Instalación
 Se compilo *Refirma Invoker Integration* para Windows y Linux, y estan disponibles en los [releases](https://github.com/jumanor/refirmainvoker/releases/tag/v1.1.7).
 
 1. Descargue el ejecutable
