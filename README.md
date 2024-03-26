@@ -25,6 +25,17 @@ En caso conozcas **Java** revisa la implementación de Refirma Invoker construid
 
 Para ejecutar *Refirma Invoker Integration* es necesario que el Representante de la Entidad Pública firme digitalmente un contrato que se encuentra en la Plataforma ***EREP*** luego debe de enviar un correo a identidadigital@reniec.gob.pe solicitando la creación de los identificadores **[clientId]** y **[clientSecret]** para el uso de Refirma Invoker en el Sistema de Gestión Documental de su institución.   
 
+# Probando con Docker
+
+1) Levantamos un contenedor de refirma-invoker
+```
+docker run -d --name refirma-invoker -p 80:80 -p 9091:9091 -e CLIENT_ID=mi_client_id -e CLIENT_SECRET=mi_cliente_secret jumanor/refirma-invoker:1.0.0
+```
+2) Probamos el **example01** (el proceso de firma de los clientes solo esta disponible para Sistema Operativo Windows)
+```
+http://127.0.0.1/example01/test.html
+```
+
 # Instalación del Servidor
 
 Esta disponible un video de la instalación en el siguiente [enlace](https://www.youtube.com/watch?v=7q4dS8y3Sws)

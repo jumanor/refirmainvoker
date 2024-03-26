@@ -15,7 +15,9 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 ENV CLIENT_ID=""
 ENV CLIENT_SECRET=""
 
+EXPOSE 80
 EXPOSE 9091
+
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 # Actualiza el índice de paquetes y luego instala las dependencias necesarias
